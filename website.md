@@ -402,8 +402,44 @@ RESEND_API_KEY           re_...
 
 ---
 
+## Before You Start: Required Questions
+
+**Always ask the client these two questions before touching any code:**
+
+### 1. What type of website is this?
+
+The answer determines page structure, nav items, section order, content tone and which sections to keep or remove. Common types:
+
+| Type | Typical pages | Notes |
+|---|---|---|
+| Professional services / consultancy | Home, Services, About, Contact | Keep current structure, swap content |
+| Product / SaaS | Home, Features, Pricing, Docs, Contact | Remove services section, add features grid |
+| Portfolio / freelancer | Home, Work, About, Contact | Simpler nav, gallery or case study section |
+| E-commerce / shop | Home, Products, About, Contact | Add product listing pattern |
+| Restaurant / hospitality | Home, Menu, About, Contact | Remove admin/leads if not needed |
+| Non-profit / charity | Home, Mission, Impact, Donate, Contact | Swap CTA copy throughout |
+| Event / launch | Single page or Home + RSVP | Strip to minimal sections |
+
+### 2. What is the primary brand colour?
+
+The entire site is themed from a single accent colour (`--color-accent`). Get the hex value and update it in **one place**:
+
+```css
+/* src/styles/global.css */
+--color-accent:       #ff4f00;   /* ← replace with client colour */
+--color-accent-light: #ff6b2a;   /* ← lighter tint (~15% lighter) */
+--color-accent-dark:  #cc3f00;   /* ← darker shade (~20% darker) */
+```
+
+Also update `meta name="theme-color"` in `Layout.astro` to match.
+
+> **Tip:** If the client colour is dark (e.g. navy, dark green), check contrast on the orange-on-white CTA button pattern — you may need to switch button text from `text-[#111111]` to `text-white`.
+
+---
+
 ## Checklist: Adapting for a New Client
 
+- [ ] **Answer the two required questions above** (website type + primary colour) before starting
 - [ ] `astro.config.mjs` — update `site` URL
 - [ ] `Layout.astro` — update brand name, tagline, JSON-LD business details, `geo.region`, `areaServed`, `availableLanguage`
 - [ ] `Header.astro` — update logo SVG or text, nav items, CTA text/href
