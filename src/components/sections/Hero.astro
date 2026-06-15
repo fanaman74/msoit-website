@@ -5,6 +5,49 @@ const beltItems = ['Microsoft 365', 'Cybersecurity', 'Automation', 'AI systems',
 ---
 <section class="relative isolate overflow-hidden bg-white">
   <div class="surface-line pointer-events-none absolute inset-0" aria-hidden="true"></div>
+
+  <!-- Animated orange tracer travelling along the background grid lines -->
+  <svg class="pointer-events-none absolute inset-0 h-full w-full" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+    <path id="hero-grid-tracer" d="
+      M 0 144
+      H 432
+      V 72
+      H 720
+      V 216
+      H 576
+      V 288
+      H 864
+      V 144
+      H 1008
+      V 360
+      H 720
+      V 432
+      H 936
+      V 288
+      H 1152
+    " fill="none" stroke="#f97316" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
+      stroke-dasharray="60 9999"
+      opacity="0.55">
+      <animate attributeName="stroke-dashoffset" from="0" to="-1800" dur="9s" repeatCount="indefinite" calcMode="linear"/>
+    </path>
+    <path id="hero-grid-tracer-2" d="
+      M 1152 360
+      V 504
+      H 864
+      V 432
+      H 648
+      V 576
+      H 432
+      V 504
+      H 216
+      V 648
+      H 0
+    " fill="none" stroke="#f97316" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
+      stroke-dasharray="60 9999"
+      opacity="0.35">
+      <animate attributeName="stroke-dashoffset" from="0" to="-1800" dur="12s" begin="4s" repeatCount="indefinite" calcMode="linear"/>
+    </path>
+  </svg>
   <div class="shape-ring hero-orb pointer-events-none absolute right-[-8rem] top-24 h-72 w-72" aria-hidden="true"></div>
   <div class="shape-square hero-shape pointer-events-none absolute left-6 top-28 h-10 w-10" aria-hidden="true"></div>
 
