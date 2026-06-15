@@ -1,4 +1,5 @@
 import type { APIRoute } from 'astro';
+import { Resend } from 'resend';
 
 interface ContactForm {
   name: string;
@@ -62,6 +63,105 @@ async function storeLead(submission: ContactForm & {
   return { stored: true };
 }
 
+async function sendConfirmationEmail({
+  name, email, company, phone, area, message,
+}: { name: string; email: string; company: string; phone: string; area: string; message: string }) {
+  const apiKey = import.meta.env.RESEND_API_KEY || process.env.RESEND_API_KEY;
+  if (!apiKey) {
+    console.warn('[Contact Form] RESEND_API_KEY missing — confirmation email not sent.');
+    return;
+  }
+
+  const resend = new Resend(apiKey);
+
+  const rows = [
+    company && `<tr><td style="padding:6px 0;color:#777;font-size:13px;width:120px;">Company</td><td style="padding:6px 0;font-size:13px;">${company}</td></tr>`,
+    phone   && `<tr><td style="padding:6px 0;color:#777;font-size:13px;">Phone</td><td style="padding:6px 0;font-size:13px;">${phone}</td></tr>`,
+    area    && `<tr><td style="padding:6px 0;color:#777;font-size:13px;">Area</td><td style="padding:6px 0;font-size:13px;">${area}</td></tr>`,
+  ].filter(Boolean).join('');
+
+  const html = `
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
+<body style="margin:0;padding:0;background:#f5f5f5;font-family:Inter,Arial,sans-serif;">
+  <table width="100%" cellpadding="0" cellspacing="0" style="background:#f5f5f5;padding:40px 16px;">
+    <tr><td align="center">
+      <table width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;">
+
+        <!-- Header -->
+        <tr>
+          <td style="background:#111111;padding:24px 32px;border-bottom:3px solid #ff4f00;">
+            <span style="color:#ffffff;font-size:18px;font-weight:700;letter-spacing:.05em;">MSOIT</span>
+            <span style="color:#ff4f00;font-size:11px;font-weight:600;margin-left:12px;">Making Sense of IT</span>
+          </td>
+        </tr>
+
+        <!-- Body -->
+        <tr>
+          <td style="background:#ffffff;padding:32px;border:1px solid #e5e5e5;border-top:none;">
+            <p style="margin:0 0 8px;font-size:22px;font-weight:700;color:#111111;">Thanks, ${name}.</p>
+            <p style="margin:0 0 24px;font-size:15px;color:#444444;line-height:1.6;">
+              Your request has been received. I'll review the details and be in touch within <strong>1–2 business days</strong>.
+            </p>
+
+            <!-- Divider -->
+            <div style="border-top:1px solid #eeeeee;margin-bottom:24px;"></div>
+
+            <p style="margin:0 0 12px;font-size:12px;font-weight:700;letter-spacing:.08em;color:#111111;text-transform:uppercase;">Your submission</p>
+
+            <table width="100%" cellpadding="0" cellspacing="0">
+              ${rows}
+              ${message ? `
+              <tr>
+                <td style="padding:12px 0 6px;color:#777;font-size:13px;vertical-align:top;width:120px;">Message</td>
+                <td style="padding:12px 0 6px;font-size:13px;"></td>
+              </tr>
+              <tr>
+                <td colspan="2" style="padding:12px 16px;background:#f9f9f9;border-left:3px solid #ff4f00;font-size:13px;color:#333;line-height:1.6;">${message.replace(/\n/g, '<br>')}</td>
+              </tr>` : ''}
+            </table>
+
+            <!-- Divider -->
+            <div style="border-top:1px solid #eeeeee;margin:28px 0 24px;"></div>
+
+            <p style="margin:0;font-size:13px;color:#777777;line-height:1.6;">
+              If you have any additional information to share in the meantime, reply directly to this email.<br><br>
+              — Fred<br>
+              <span style="color:#ff4f00;font-weight:600;">MSOIT</span> · msoit.eu
+            </p>
+          </td>
+        </tr>
+
+        <!-- Footer -->
+        <tr>
+          <td style="padding:20px 32px;text-align:center;">
+            <p style="margin:0;font-size:11px;color:#aaaaaa;">
+              © ${new Date().getFullYear()} MSOIT — Making Sense of IT &nbsp;·&nbsp; Belgium
+            </p>
+          </td>
+        </tr>
+
+      </table>
+    </td></tr>
+  </table>
+</body>
+</html>`;
+
+  try {
+    await resend.emails.send({
+      from: 'MSOIT <hello@msoit.eu>',
+      to: email,
+      replyTo: 'hello@msoit.eu',
+      subject: `Got your request, ${name} — MSOIT`,
+      html,
+    });
+    console.log('[Contact Form] Confirmation email sent to', email);
+  } catch (err) {
+    console.error('[Contact Form] Resend error:', err);
+  }
+}
+
 export const POST: APIRoute = async ({ request }) => {
   try {
     const contentType = request.headers.get('content-type') || '';
@@ -120,6 +220,7 @@ export const POST: APIRoute = async ({ request }) => {
 
     console.log('[Contact Form Submission]', JSON.stringify(submission, null, 2));
     const storage = await storeLead(submission);
+    await sendConfirmationEmail({ name, email, company, phone, area, message });
 
     return new Response(
       JSON.stringify({
