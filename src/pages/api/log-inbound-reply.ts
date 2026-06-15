@@ -17,7 +17,10 @@ export const POST: APIRoute = async ({ request }) => {
     return new Response(JSON.stringify({ error: 'Invalid JSON' }), { status: 400 });
   }
 
-  const fromEmail = (body.from_email || '').trim().toLowerCase();
+  // Extract plain email from "Name <email@example.com>" format
+  const rawFrom = (body.from_email || '').trim();
+  const emailMatch = rawFrom.match(/<([^>]+)>/) || rawFrom.match(/([^\s]+@[^\s]+)/);
+  const fromEmail = (emailMatch ? emailMatch[1] : rawFrom).toLowerCase();
   const subject   = (body.subject   || '(no subject)').trim();
   const message   = (body.body      || '').trim();
 
