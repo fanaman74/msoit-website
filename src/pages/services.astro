@@ -80,6 +80,13 @@ const services = [
               </li>
             ))}
           </ul>
+          {service.id === 'websites' && (
+            <div class="mt-4">
+              <a href="/pricing" class="inline-flex items-center gap-2 text-sm font-bold text-accent hover:underline">
+                View website pricing →
+              </a>
+            </div>
+          )}
         </article>
       ))}
     </div>
