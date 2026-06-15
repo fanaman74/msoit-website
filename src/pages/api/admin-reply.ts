@@ -9,7 +9,7 @@ export const POST: APIRoute = async ({ request, cookies }) => {
     return new Response(JSON.stringify({ error: 'Unauthorized' }), { status: 401 });
   }
 
-  const { to, name, subject, message } = await request.json();
+  const { to, name, subject, message, leadId } = await request.json();
 
   if (!to || !subject || !message) {
     return new Response(JSON.stringify({ error: 'Missing fields' }), { status: 400 });
@@ -68,6 +68,25 @@ export const POST: APIRoute = async ({ request, cookies }) => {
       subject,
       html,
     });
+
+    // Store reply in Supabase if leadId provided
+    if (leadId) {
+      const supabaseUrl = import.meta.env.SUPABASE_URL || process.env.SUPABASE_URL;
+      const serviceRoleKey = import.meta.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_SERVICE_ROLE_KEY;
+      if (supabaseUrl && serviceRoleKey) {
+        await fetch(`${supabaseUrl.replace(/\/$/, '')}/rest/v1/lead_replies`, {
+          method: 'POST',
+          headers: {
+            apikey: serviceRoleKey,
+            Authorization: `Bearer ${serviceRoleKey}`,
+            'Content-Type': 'application/json',
+            Prefer: 'return=minimal',
+          },
+          body: JSON.stringify({ lead_id: leadId, subject, message }),
+        });
+      }
+    }
+
     return new Response(JSON.stringify({ ok: true }), { status: 200 });
   } catch (err) {
     console.error('[Admin Reply] Resend error:', err);

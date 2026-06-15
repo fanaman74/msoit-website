@@ -8,24 +8,33 @@ const isAuthed = Astro.cookies.get(COOKIE_NAME)?.value === TOKEN;
 const showError = Astro.url.searchParams.get('error') === '1';
 
 let leads: Record<string, unknown>[] = [];
+let repliesByLead: Record<string, { subject: string; message: string; sent_at: string }[]> = {};
 
 if (isAuthed) {
   const supabaseUrl = import.meta.env.SUPABASE_URL || process.env.SUPABASE_URL;
   const serviceRoleKey = import.meta.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_SERVICE_ROLE_KEY;
 
   if (supabaseUrl && serviceRoleKey) {
-    const res = await fetch(
-      `${supabaseUrl.replace(/\/$/, '')}/rest/v1/lead_submissions?order=submitted_at.desc&limit=200`,
-      {
-        headers: {
-          apikey: serviceRoleKey,
-          Authorization: `Bearer ${serviceRoleKey}`,
-          'Content-Type': 'application/json',
-        },
+    const headers = {
+      apikey: serviceRoleKey,
+      Authorization: `Bearer ${serviceRoleKey}`,
+      'Content-Type': 'application/json',
+    };
+    const base = supabaseUrl.replace(/\/$/, '');
+
+    const [leadsRes, repliesRes] = await Promise.all([
+      fetch(`${base}/rest/v1/lead_submissions?order=submitted_at.desc&limit=200`, { headers }),
+      fetch(`${base}/rest/v1/lead_replies?order=sent_at.asc&limit=1000`, { headers }),
+    ]);
+
+    if (leadsRes.ok) leads = await leadsRes.json();
+
+    if (repliesRes.ok) {
+      const allReplies: { lead_id: string; subject: string; message: string; sent_at: string }[] = await repliesRes.json();
+      for (const r of allReplies) {
+        if (!repliesByLead[r.lead_id]) repliesByLead[r.lead_id] = [];
+        repliesByLead[r.lead_id].push({ subject: r.subject, message: r.message, sent_at: r.sent_at });
       }
-    );
-    if (res.ok) {
-      leads = await res.json();
     }
   }
 }
@@ -95,6 +104,17 @@ if (isAuthed) {
     .status-select[data-status="contacted"] { background: #fefce8; border-color: #fde047; color: #854d0e; }
     .status-select[data-status="closed"]    { background: #f0fdf4; border-color: #86efac; color: #166534; }
     .status-select.saving { opacity: 0.5; }
+
+    /* Reply history */
+    .reply-history { margin-top: 6px; }
+    .reply-bubble {
+      background: #f0f7ff; border-left: 3px solid #f97316; padding: 6px 10px;
+      margin-bottom: 4px; font-size: 0.75rem; line-height: 1.5;
+    }
+    .reply-bubble-subject { font-weight: 700; color: #111; margin-bottom: 2px; }
+    .reply-bubble-meta { font-size: 0.68rem; color: #888; margin-top: 3px; }
+    .reply-bubble-body { color: #333; white-space: pre-wrap; }
+    .history-toggle { font-size: 0.7rem; color: #f97316; cursor: pointer; background: none; border: none; font-family: inherit; padding: 0; text-decoration: underline; }
 
     /* Reply button */
     .reply-btn {
@@ -209,6 +229,7 @@ if (isAuthed) {
                 <td>
                   <button
                     class="reply-btn"
+                    data-id={lead.id as string}
                     data-email={lead.email as string}
                     data-name={lead.name as string}
                     data-area={lead.area as string || ''}
@@ -222,7 +243,29 @@ if (isAuthed) {
                 </td>
                 <td><strong>{lead.name as string}</strong></td>
                 <td>{lead.company as string || '—'}</td>
-                <td><a href={`mailto:${lead.email}`} style="color:#f97316;">{lead.email as string}</a></td>
+                <td>
+                  <a href={`mailto:${lead.email}`} style="color:#f97316;">{lead.email as string}</a>
+                  {(() => {
+                    const replies = repliesByLead[lead.id as string] || [];
+                    if (!replies.length) return null;
+                    return (
+                      <div class="reply-history">
+                        <button class="history-toggle" onclick="this.nextElementSibling.style.display=this.nextElementSibling.style.display==='none'?'block':'none'">
+                          {replies.length} {replies.length === 1 ? 'reply' : 'replies'} sent
+                        </button>
+                        <div style="display:none;margin-top:4px;">
+                          {replies.map((r) => (
+                            <div class="reply-bubble">
+                              <div class="reply-bubble-subject">{r.subject}</div>
+                              <div class="reply-bubble-body">{r.message}</div>
+                              <div class="reply-bubble-meta">{new Date(r.sent_at).toLocaleDateString('en-GB', { day:'2-digit', month:'short', year:'numeric', hour:'2-digit', minute:'2-digit' })}</div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    );
+                  })()}
+                </td>
                 <td class="mono">{lead.phone as string || '—'}</td>
                 <td>{lead.area ? <span class="tag tag-area">{lead.area as string}</span> : '—'}</td>
                 <td style="max-width:280px;white-space:pre-wrap;">{lead.message as string || '—'}</td>
@@ -304,9 +347,11 @@ if (isAuthed) {
   var sendBtn = document.getElementById('modal-send-btn') as HTMLButtonElement;
   var statusEl = document.getElementById('send-status');
   var replyName = '';
+  var replyLeadId = '';
 
-  function openModal(email: string, name: string, area: string) {
+  function openModal(email: string, name: string, area: string, leadId: string) {
     replyName = name;
+    replyLeadId = leadId;
     toInput.value = email;
     subjectInput.value = 'Re: Your request' + (area ? ' — ' + area : '') + ' | MSOIT';
     messageInput.value = '';
@@ -322,7 +367,7 @@ if (isAuthed) {
 
   document.querySelectorAll<HTMLButtonElement>('.reply-btn').forEach((btn) => {
     btn.addEventListener('click', () => {
-      openModal(btn.dataset.email || '', btn.dataset.name || '', btn.dataset.area || '');
+      openModal(btn.dataset.email || '', btn.dataset.name || '', btn.dataset.area || '', btn.dataset.id || '');
     });
   });
 
@@ -344,12 +389,12 @@ if (isAuthed) {
       var res = await fetch('/api/admin-reply', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ to: toInput.value, name: replyName, subject, message }),
+        body: JSON.stringify({ to: toInput.value, name: replyName, subject, message, leadId: replyLeadId }),
       });
       if (res.ok) {
         if (statusEl) { statusEl.textContent = '✓ Reply sent successfully.'; statusEl.className = 'send-status ok'; statusEl.style.display = 'block'; }
         sendBtn.textContent = 'Sent';
-        setTimeout(closeModal, 1800);
+        setTimeout(() => { closeModal(); window.location.reload(); }, 1800);
       } else {
         var err = await res.json().catch(() => ({ error: 'Unknown error' }));
         if (statusEl) { statusEl.textContent = '✗ ' + (err.error || 'Failed to send.'); statusEl.className = 'send-status err'; statusEl.style.display = 'block'; }
