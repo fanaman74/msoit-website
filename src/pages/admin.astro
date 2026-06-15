@@ -84,8 +84,17 @@ if (isAuthed) {
     .mono { font-family: monospace; font-size: 0.75rem; color: #555; }
     .date { white-space: nowrap; color: #555; font-size: 0.75rem; }
 
-    /* UTM collapsible section per row */
-    .utm-toggle { font-size: 0.7rem; color: #f97316; cursor: pointer; text-decoration: underline; background: none; border: none; font-family: inherit; }
+    /* Status select */
+    .status-select {
+      border: 1px solid #ddd; padding: 0.25rem 0.4rem; font-size: 0.75rem;
+      font-family: inherit; cursor: pointer; background: #fff; border-radius: 2px;
+      transition: border-color 0.15s;
+    }
+    .status-select:focus { outline: 2px solid #f97316; outline-offset: -2px; }
+    .status-select[data-status="new"]       { background: #eff6ff; border-color: #93c5fd; color: #1d4ed8; }
+    .status-select[data-status="contacted"] { background: #fefce8; border-color: #fde047; color: #854d0e; }
+    .status-select[data-status="closed"]    { background: #f0fdf4; border-color: #86efac; color: #166534; }
+    .status-select.saving { opacity: 0.5; }
   </style>
 </head>
 <body>
@@ -119,6 +128,7 @@ if (isAuthed) {
         <table>
           <thead>
             <tr>
+              <th>Status</th>
               <th>Date</th>
               <th>Name</th>
               <th>Company</th>
@@ -133,6 +143,17 @@ if (isAuthed) {
           <tbody>
             {leads.map((lead) => (
               <tr>
+                <td>
+                  <select
+                    class="status-select"
+                    data-id={lead.id as string}
+                    data-status={lead.status as string || 'new'}
+                  >
+                    <option value="new"       selected={(lead.status || 'new') === 'new'}>New</option>
+                    <option value="contacted" selected={(lead.status as string) === 'contacted'}>Contacted</option>
+                    <option value="closed"    selected={(lead.status as string) === 'closed'}>Closed</option>
+                  </select>
+                </td>
                 <td class="date">
                   {new Date(lead.submitted_at as string).toLocaleDateString('en-GB', {
                     day: '2-digit', month: 'short', year: 'numeric',
@@ -158,5 +179,32 @@ if (isAuthed) {
   </div>
 )}
 
+<script>
+  document.querySelectorAll<HTMLSelectElement>('.status-select').forEach((sel) => {
+    sel.addEventListener('change', async () => {
+      const id = sel.dataset.id!;
+      const status = sel.value;
+      sel.classList.add('saving');
+      sel.disabled = true;
+      try {
+        const res = await fetch('/api/admin-update-lead', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ id, status }),
+        });
+        if (res.ok) {
+          sel.dataset.status = status;
+        } else {
+          alert('Failed to update status.');
+        }
+      } catch {
+        alert('Network error updating status.');
+      } finally {
+        sel.classList.remove('saving');
+        sel.disabled = false;
+      }
+    });
+  });
+</script>
 </body>
 </html>
