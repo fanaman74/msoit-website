@@ -1,0 +1,31 @@
+---
+interface Props {
+  heading: string;
+  subheading?: string;
+  align?: 'center' | 'left';
+  dark?: boolean;
+}
+
+const { heading, subheading, align = 'center', dark = false } = Astro.props;
+---
+<div class:list={[align === 'center' ? 'text-center' : 'text-left']}>
+  <h2
+    class:list={[
+      'text-3xl font-bold tracking-tight sm:text-4xl',
+      dark ? 'text-white' : 'text-slate-900',
+    ]}
+  >
+    {heading}
+  </h2>
+  {subheading && (
+    <p
+      class:list={[
+        'mx-auto mt-4 max-w-2xl text-lg leading-relaxed',
+        dark ? 'text-slate-400' : 'text-slate-600',
+        align === 'center' ? 'mx-auto' : '',
+      ]}
+    >
+      {subheading}
+    </p>
+  )}
+</div>

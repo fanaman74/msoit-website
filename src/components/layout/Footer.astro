@@ -1,0 +1,97 @@
+---
+const services = [
+  { label: 'Microsoft 365 & Cloud', href: '/services#microsoft-365' },
+  { label: 'Cybersecurity', href: '/services#cybersecurity' },
+  { label: 'Business Automation', href: '/services#automation' },
+  { label: 'AI Opportunity Review', href: '/ai-review' },
+  { label: 'AI Document Systems', href: '/services#ai-documents' },
+  { label: 'Websites', href: '/services#websites' },
+];
+
+const company = [
+  { label: 'About', href: '/about' },
+  { label: 'Contact', href: '/contact' },
+  { label: 'Services', href: '/services' },
+];
+---
+<footer class="bg-navy-900 text-slate-400">
+  <div class="mx-auto max-w-7xl px-6 py-16">
+    <div class="grid gap-12 md:grid-cols-2 lg:grid-cols-4">
+      <!-- Brand -->
+      <div class="lg:col-span-1">
+        <div class="flex items-center gap-2 text-white">
+          <svg
+            class="h-7 w-7 text-accent"
+            viewBox="0 0 32 32"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            aria-hidden="true"
+          >
+            <rect x="2" y="2" width="28" height="28" rx="6" stroke="currentColor" stroke-width="2" />
+            <path d="M9 22V10l4 6 4-6v12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            <circle cx="24" cy="12" r="2" fill="currentColor" />
+          </svg>
+          <span class="text-lg font-bold tracking-tight">MSOIT</span>
+        </div>
+        <p class="mt-1 text-sm text-slate-500">Making Sense of IT</p>
+        <p class="mt-4 text-sm leading-relaxed">
+          Secure, automate and modernise your business IT.
+        </p>
+      </div>
+
+      <!-- Services -->
+      <div>
+        <h3 class="mb-4 text-sm font-semibold uppercase tracking-wider text-slate-200">Services</h3>
+        <ul class="space-y-3">
+          {services.map((s) => (
+            <li>
+              <a href={s.href} class="text-sm transition-colors hover:text-white">
+                {s.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <!-- Company -->
+      <div>
+        <h3 class="mb-4 text-sm font-semibold uppercase tracking-wider text-slate-200">Company</h3>
+        <ul class="space-y-3">
+          {company.map((c) => (
+            <li>
+              <a href={c.href} class="text-sm transition-colors hover:text-white">
+                {c.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <!-- CTA -->
+      <div>
+        <h3 class="mb-4 text-sm font-semibold uppercase tracking-wider text-slate-200">Get Started</h3>
+        <p class="mb-4 text-sm leading-relaxed">
+          Book a free 30-minute IT review to discuss your systems, security and opportunities.
+        </p>
+        <a
+          href="/contact"
+          class="inline-block rounded-lg bg-accent px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-accent-light"
+        >
+          Book a Review
+        </a>
+      </div>
+    </div>
+
+    <!-- Bottom Bar -->
+    <div class="mt-12 border-t border-navy-700 pt-8">
+      <div class="flex flex-col items-center justify-between gap-4 md:flex-row">
+        <p class="text-sm">
+          &copy; {new Date().getFullYear()} MSOIT — Making Sense of IT. All rights reserved.
+        </p>
+        <p class="text-sm text-slate-500">
+          IT Consultancy for SMEs
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>

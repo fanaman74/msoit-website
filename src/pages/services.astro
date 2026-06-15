@@ -1,0 +1,101 @@
+---
+import Layout from '../layouts/Layout.astro';
+import CTASection from '../components/sections/CTASection.astro';
+---
+
+<Layout title="IT Consultancy Services" description="Microsoft 365, cybersecurity, automation, AI consulting, document management and website services for SMEs.">
+  <!-- Hero -->
+  <section class="bg-navy-900 py-20">
+    <div class="mx-auto max-w-4xl px-6 text-center">
+      <h1 class="text-4xl font-bold text-white sm:text-5xl">Services</h1>
+      <p class="mt-4 text-lg text-slate-400">I help SMEs improve how they manage technology, documents, security, workflows and AI adoption.</p>
+    </div>
+  </section>
+
+  <!-- Services List -->
+  <section class="bg-white py-20">
+    <div class="mx-auto max-w-7xl px-6 space-y-16">
+
+      <!-- Service 1 -->
+      <div class="grid gap-8 lg:grid-cols-2 items-start" id="microsoft-365">
+        <div>
+          <h2 class="text-2xl font-bold text-slate-900">Microsoft 365 &amp; Cloud Productivity</h2>
+          <p class="mt-4 text-slate-600 leading-relaxed">Modernise how your team works with secure Microsoft 365 environments, structured file management, better collaboration and clear governance.</p>
+          <p class="mt-4 text-slate-700 font-medium">Outcome: A cleaner, more secure and more organised Microsoft 365 environment that supports daily work.</p>
+        </div>
+        <ul class="space-y-3">
+          {['Microsoft 365 setup and optimisation','SharePoint document libraries','Teams structure and governance','OneDrive and file migration','Exchange and business email','User access and permissions review','Secure sharing configuration','File structure redesign','Microsoft 365 governance documentation','Collaboration improvements'].map(i => (
+            <li class="flex items-start gap-2 text-sm text-slate-600"><svg class="mt-0.5 h-4 w-4 flex-shrink-0 text-success" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>{i}</li>
+          ))}
+        </ul>
+      </div>
+
+      <hr class="border-slate-200" />
+
+      <!-- Service 2 -->
+      <div class="grid gap-8 lg:grid-cols-2 items-start" id="cybersecurity">
+        <div>
+          <h2 class="text-2xl font-bold text-slate-900">Cybersecurity &amp; IT Governance</h2>
+          <p class="mt-4 text-slate-600 leading-relaxed">Protect your business with practical cybersecurity improvements, secure access management and clear IT policies designed for SMEs.</p>
+          <p class="mt-4 text-slate-700 font-medium">Outcome: Understand your main IT security risks and receive practical steps to reduce exposure and protect business information.</p>
+        </div>
+        <ul class="space-y-3">
+          {['Cybersecurity review','Microsoft 365 security hardening','Multi-factor authentication review','Conditional access recommendations','Access control and permissions review','Data protection and backup review','Email security review','IT policies and governance documentation','Security awareness support','Risk prioritisation'].map(i => (
+            <li class="flex items-start gap-2 text-sm text-slate-600"><svg class="mt-0.5 h-4 w-4 flex-shrink-0 text-success" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>{i}</li>
+          ))}
+        </ul>
+      </div>
+
+      <hr class="border-slate-200" />
+
+      <!-- Service 3 -->
+      <div class="grid gap-8 lg:grid-cols-2 items-start" id="automation">
+        <div>
+          <h2 class="text-2xl font-bold text-slate-900">Business Automation</h2>
+          <p class="mt-4 text-slate-600 leading-relaxed">Reduce manual work by automating repetitive business processes, approvals, document handling and internal workflows.</p>
+          <p class="mt-4 text-slate-700 font-medium">Outcome: Save time, reduce errors and gain better visibility over processes previously managed through email or spreadsheets.</p>
+        </div>
+        <ul class="space-y-3">
+          {['Power Automate workflows','Power Apps business applications','Approval systems','Forms and data collection','Automated reminders and notifications','Excel-to-app modernisation','Internal process dashboards','Document workflow automation','Task tracking systems','Simple CRM or case management','Operational reporting dashboards'].map(i => (
+            <li class="flex items-start gap-2 text-sm text-slate-600"><svg class="mt-0.5 h-4 w-4 flex-shrink-0 text-success" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>{i}</li>
+          ))}
+        </ul>
+      </div>
+
+      <hr class="border-slate-200" />
+
+      <!-- Service 4 -->
+      <div class="grid gap-8 lg:grid-cols-2 items-start" id="ai-documents">
+        <div>
+          <h2 class="text-2xl font-bold text-slate-900">AI Document &amp; Knowledge Systems</h2>
+          <p class="mt-4 text-slate-600 leading-relaxed">Build secure AI-powered document systems that help your business search, summarise and understand large volumes of files.</p>
+          <p class="mt-4 text-slate-700 font-medium">Outcome: Find, understand and reuse your own information more effectively.</p>
+        </div>
+        <ul class="space-y-3">
+          {['AI document management systems','Semantic search across PDFs, Word, emails','Document summarisation','Legal and HR document analysis','Internal knowledge bases','AI-assisted file classification','Secure searchable archives','Document metadata extraction','Searchable policy and procedure libraries'].map(i => (
+            <li class="flex items-start gap-2 text-sm text-slate-600"><svg class="mt-0.5 h-4 w-4 flex-shrink-0 text-success" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>{i}</li>
+          ))}
+        </ul>
+      </div>
+
+      <hr class="border-slate-200" />
+
+      <!-- Service 5 -->
+      <div class="grid gap-8 lg:grid-cols-2 items-start" id="websites">
+        <div>
+          <h2 class="text-2xl font-bold text-slate-900">Websites &amp; Digital Presence</h2>
+          <p class="mt-4 text-slate-600 leading-relaxed">Create a professional, modern website that presents your business clearly, builds trust and connects with your wider digital systems.</p>
+          <p class="mt-4 text-slate-700 font-medium">Outcome: A modern, credible online presence that supports lead generation and business growth.</p>
+        </div>
+        <ul class="space-y-3">
+          {['Business websites','Service landing pages','Website modernisation','Contact forms and booking flows','SEO-ready structure','Secure hosting guidance','Integration with Microsoft 365','Integration with CRM or automation tools','Professional service pages','Basic analytics setup'].map(i => (
+            <li class="flex items-start gap-2 text-sm text-slate-600"><svg class="mt-0.5 h-4 w-4 flex-shrink-0 text-success" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>{i}</li>
+          ))}
+        </ul>
+      </div>
+
+    </div>
+  </section>
+
+  <CTASection />
+</Layout>

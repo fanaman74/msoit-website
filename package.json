@@ -1,0 +1,33 @@
+{
+  "name": "msoit-website",
+  "version": "1.0.0",
+  "description": "MSOIT - Making Sense of IT | Professional IT Consultancy for SMEs",
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "start": "node ./dist/server/entry.mjs"
+  },
+  "keywords": [
+    "it-consultancy",
+    "sme",
+    "microsoft-365",
+    "cybersecurity",
+    "automation",
+    "ai"
+  ],
+  "author": "MSOIT",
+  "license": "ISC",
+  "dependencies": {
+    "@astrojs/node": "^9.2.1",
+    "@astrojs/sitemap": "^3.4.1",
+    "@lucide/astro": "^0.556.0",
+    "astro": "^5.13.2"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.3.1",
+    "tailwindcss": "^4.3.1",
+    "typescript": "^5.8.3"
+  }
+}

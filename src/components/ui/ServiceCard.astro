@@ -1,0 +1,45 @@
+---
+import { Shield } from '@lucide/astro';
+
+interface Props {
+  title: string;
+  description: string;
+  href: string;
+  items?: string[];
+  icon?: any;
+}
+
+const { title, description, href, items = [], icon: Icon } = Astro.props;
+---
+<div class="group flex flex-col rounded-xl border border-navy-600 bg-navy-800 p-8 transition-all hover:border-accent/50 hover:shadow-lg hover:shadow-accent/5">
+  <div class="mb-5 flex h-12 w-12 items-center justify-center rounded-lg bg-accent/10">
+    {Icon ? (
+      <Icon class="h-6 w-6 text-accent" stroke-width="1.5" />
+    ) : (
+      <Shield class="h-6 w-6 text-accent" stroke-width="1.5" />
+    )}
+  </div>
+  <h3 class="mb-3 text-lg font-semibold text-white">{title}</h3>
+  <p class="mb-4 flex-1 text-sm leading-relaxed text-slate-400">{description}</p>
+  {items.length > 0 && (
+    <ul class="mb-5 space-y-2">
+      {items.map((item) => (
+        <li class="flex items-start gap-2 text-sm text-slate-400">
+          <svg class="mt-1 h-3.5 w-3.5 flex-shrink-0 text-success" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+          </svg>
+          <span>{item}</span>
+        </li>
+      ))}
+    </ul>
+  )}
+  <a
+    href={href}
+    class="mt-auto inline-flex items-center text-sm font-medium text-accent transition-colors hover:text-accent-light"
+  >
+    Learn more
+    <svg class="ml-1 h-4 w-4 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+    </svg>
+  </a>
+</div>

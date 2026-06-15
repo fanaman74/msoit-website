@@ -1,0 +1,24 @@
+---
+import { AlertCircle } from '@lucide/astro';
+
+interface Props {
+  title: string;
+  description: string;
+  icon?: any;
+}
+
+const { title, description, icon: Icon } = Astro.props;
+---
+<div class="flex gap-4 rounded-xl border border-navy-600 bg-navy-800 p-6">
+  <div class="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-lg bg-accent/10">
+    {Icon ? (
+      <Icon class="h-5 w-5 text-accent" stroke-width="1.5" />
+    ) : (
+      <AlertCircle class="h-5 w-5 text-accent" stroke-width="1.5" />
+    )}
+  </div>
+  <div>
+    <h3 class="mb-2 text-base font-semibold text-white">{title}</h3>
+    <p class="text-sm leading-relaxed text-slate-400">{description}</p>
+  </div>
+</div>

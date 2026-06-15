@@ -1,0 +1,52 @@
+---
+import SectionHeading from '../ui/SectionHeading.astro';
+import ProblemCard from '../ui/ProblemCard.astro';
+import { Repeat, FolderSearch, LockOpen, Monitor, HelpCircle, BrainCog } from '@lucide/astro';
+
+const problems = [
+  {
+    icon: Repeat,
+    title: 'Too Much Manual Work',
+    description: 'Your team spends too much time copying data, sending follow-up emails, updating spreadsheets or chasing approvals. Automation can remove repetitive admin and give your team more time for valuable work.',
+  },
+  {
+    icon: FolderSearch,
+    title: 'Poor File Management',
+    description: 'Documents are spread across email, desktops, shared drives, Teams and old folders, making it difficult to find the right version when you need it.',
+  },
+  {
+    icon: LockOpen,
+    title: 'Weak Security',
+    description: 'Users may have too much access, passwords may be reused, MFA may be missing, backups may be unclear and sensitive files may not be properly controlled.',
+  },
+  {
+    icon: Monitor,
+    title: 'Outdated Systems',
+    description: 'Many businesses still rely on old websites, disconnected tools, spreadsheets and manual processes that no longer support growth.',
+  },
+  {
+    icon: HelpCircle,
+    title: 'No Clear IT Ownership',
+    description: 'The business may have systems in place, but no proper structure, documentation, governance or long-term IT plan.',
+  },
+  {
+    icon: BrainCog,
+    title: 'Confusion About AI',
+    description: 'AI is everywhere, but many companies are unsure what it actually means for their business. The right approach starts with identifying realistic use cases, risks and opportunities.',
+  },
+];
+---
+<section class="bg-navy-900 py-20">
+  <div class="mx-auto max-w-7xl px-6">
+    <SectionHeading
+      heading="Does this sound familiar?"
+      subheading="Many businesses experience the same challenges. Here are the most common problems I help solve."
+      dark={true}
+    />
+    <div class="mt-12 grid gap-6 sm:grid-cols-2">
+      {problems.map((p) => (
+        <ProblemCard icon={p.icon} title={p.title} description={p.description} />
+      ))}
+    </div>
+  </div>
+</section>

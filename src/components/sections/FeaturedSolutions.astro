@@ -1,0 +1,50 @@
+---
+import SectionHeading from '../ui/SectionHeading.astro';
+import SolutionCard from '../ui/SolutionCard.astro';
+
+const solutions = [
+  {
+    title: 'AI Document Management System',
+    description: 'A secure system that allows businesses to upload, organise, search and summarise documents using AI. Suitable for legal files, HR files, contracts, policies and project records.',
+    features: ['Upload PDFs, Word files, emails and spreadsheets', 'Natural language search across all documents', 'Document summarisation and classification', 'Role-based access controls', 'Link AI results to original source files'],
+  },
+  {
+    title: 'AI Opportunity Review',
+    description: 'A practical review to help your company understand where AI can help and what should be prioritised — with a clear roadmap instead of vague ideas.',
+    features: ['Business process review', 'AI use-case identification', 'Risk and privacy review', 'Tool recommendation and Copilot readiness', 'Prioritised roadmap with quick wins'],
+  },
+  {
+    title: 'Microsoft 365 Security Review',
+    description: 'A practical review of your Microsoft 365 environment — users, permissions, MFA, sharing settings, email security and data protection risks.',
+    features: ['User and access review', 'MFA and conditional access review', 'External sharing audit', 'Email security and backup review', 'Security improvement plan'],
+  },
+  {
+    title: 'Business Process Automation',
+    description: 'A tailored automation package to replace manual workflows with digital forms, approvals, notifications, dashboards and structured records.',
+    features: ['Workflow discovery and mapping', 'Power Automate implementation', 'Power Apps design', 'Approval routing and notifications', 'Dashboard reporting and documentation'],
+  },
+  {
+    title: 'Secure Cloud Migration',
+    description: 'Support for moving files, email, collaboration and business documents into a more secure and organised Microsoft 365 or cloud environment.',
+    features: ['File migration planning', 'SharePoint structure design', 'Teams governance setup', 'Permission mapping and user support', 'Post-migration clean-up and documentation'],
+  },
+  {
+    title: 'Professional Website Modernisation',
+    description: 'A modern website refresh for SMEs that need a more credible online presence, clearer service pages and better customer conversion.',
+    features: ['Website structure and content review', 'Professional service page design', 'Contact and booking forms', 'SEO-ready pages and analytics', 'Integration with Microsoft 365 or CRM'],
+  },
+];
+---
+<section class="bg-surface py-20">
+  <div class="mx-auto max-w-7xl px-6">
+    <SectionHeading
+      heading="Featured Solutions"
+      subheading="Strategic, higher-value solutions that go beyond basic IT support."
+    />
+    <div class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      {solutions.map((s) => (
+        <SolutionCard title={s.title} description={s.description} features={s.features} />
+      ))}
+    </div>
+  </div>
+</section>

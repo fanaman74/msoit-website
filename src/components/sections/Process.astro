@@ -1,0 +1,51 @@
+---
+import SectionHeading from '../ui/SectionHeading.astro';
+import ProcessStep from '../ui/ProcessStep.astro';
+
+const steps = [
+  {
+    step: 1,
+    title: 'Free IT Review',
+    description: 'A short consultation to understand your current systems, problems, risks and priorities.',
+  },
+  {
+    step: 2,
+    title: 'Practical Assessment',
+    description: 'Review your business needs, existing tools, security concerns, processes and opportunities for improvement.',
+  },
+  {
+    step: 3,
+    title: 'Clear Recommendations',
+    description: 'Realistic recommendations based on business value, cost, risk and implementation effort.',
+  },
+  {
+    step: 4,
+    title: 'Implementation',
+    description: 'Build or improve the required systems — Microsoft 365, automation, AI, cybersecurity or websites.',
+  },
+  {
+    step: 5,
+    title: 'Handover & Support',
+    description: 'Documentation, user guidance and follow-up support so you can manage the solution confidently.',
+  },
+];
+---
+<section class="bg-navy-900 py-20">
+  <div class="mx-auto max-w-7xl px-6">
+    <SectionHeading
+      heading="How It Works"
+      subheading="A simple, structured process from initial conversation to delivered solution."
+      dark={true}
+    />
+    <div class="mt-16 grid gap-12 sm:grid-cols-2 lg:grid-cols-5">
+      {steps.map((s, i) => (
+        <ProcessStep
+          step={s.step}
+          title={s.title}
+          description={s.description}
+          last={i === steps.length - 1}
+        />
+      ))}
+    </div>
+  </div>
+</section>

@@ -1,0 +1,38 @@
+---
+import Button from '../ui/Button.astro';
+---
+<section class="relative overflow-hidden bg-navy-900 py-24 sm:py-32 lg:py-40">
+  <!-- Background pattern -->
+  <div class="pointer-events-none absolute inset-0 opacity-[0.04]" aria-hidden="true">
+    <svg class="h-full w-full" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <pattern id="grid" width="60" height="60" patternUnits="userSpaceOnUse">
+          <path d="M 60 0 L 0 0 0 60" fill="none" stroke="white" stroke-width="0.5" />
+        </pattern>
+      </defs>
+      <rect width="100%" height="100%" fill="url(#grid)" />
+    </svg>
+  </div>
+
+  <!-- Gradient glow -->
+  <div class="pointer-events-none absolute -top-40 left-1/2 h-80 w-[600px] -translate-x-1/2 rounded-full bg-accent/10 blur-3xl" aria-hidden="true"></div>
+
+  <div class="relative mx-auto max-w-7xl px-6">
+    <div class="max-w-3xl">
+      <h1 class="text-4xl font-extrabold tracking-tight text-white sm:text-5xl lg:text-6xl">
+        Secure, automate and modernise your business&nbsp;IT
+      </h1>
+      <p class="mt-6 text-lg leading-relaxed text-slate-400 sm:text-xl">
+        I help SMEs improve their IT systems, strengthen cybersecurity, automate manual work and build modern cloud, AI and document-management solutions.
+      </p>
+      <div class="mt-10 flex flex-wrap gap-4">
+        <Button href="/contact" variant="primary" size="lg">
+          Book a free 30-minute IT review
+        </Button>
+        <Button href="/services" variant="secondary" size="lg">
+          View services
+        </Button>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,69 @@
+---
+import SectionHeading from '../ui/SectionHeading.astro';
+import ServiceCard from '../ui/ServiceCard.astro';
+import { Cloud, Shield, Workflow, Brain, FileSearch, Globe } from '@lucide/astro';
+
+const services = [
+  {
+    icon: Cloud,
+    title: 'Microsoft 365 & Cloud Productivity',
+    description: 'Modernise how your team works with secure Microsoft 365 environments, structured file management, better collaboration and clear governance.',
+    items: ['SharePoint & Teams setup', 'File migration & structure', 'Permissions & governance'],
+    href: '/services#microsoft-365',
+  },
+  {
+    icon: Shield,
+    title: 'Cybersecurity & IT Governance',
+    description: 'Protect your business with practical cybersecurity improvements, secure access management and clear IT policies designed for SMEs.',
+    items: ['Security review & hardening', 'MFA & access control', 'IT policies & documentation'],
+    href: '/services#cybersecurity',
+  },
+  {
+    icon: Workflow,
+    title: 'Business Automation',
+    description: 'Reduce manual work by automating repetitive business processes, approvals, document handling and internal workflows.',
+    items: ['Power Automate workflows', 'Approval systems & forms', 'Dashboards & reporting'],
+    href: '/services#automation',
+  },
+  {
+    icon: Brain,
+    title: 'AI Opportunity Review',
+    description: 'Understand where AI can genuinely help your business, what is realistic, what is risky and what should be prioritised.',
+    items: ['AI readiness assessment', 'Use-case identification', 'Prioritised roadmap'],
+    href: '/ai-review',
+  },
+  {
+    icon: FileSearch,
+    title: 'AI Document & Knowledge Systems',
+    description: 'Build secure AI-powered document systems that help your business search, summarise and understand large volumes of files.',
+    items: ['Semantic document search', 'Summarisation & classification', 'Knowledge base systems'],
+    href: '/services#ai-documents',
+  },
+  {
+    icon: Globe,
+    title: 'Websites & Digital Presence',
+    description: 'Create a professional, modern website that presents your business clearly, builds trust and connects with your wider digital systems.',
+    items: ['Modern business websites', 'SEO-ready structure', 'CRM & M365 integration'],
+    href: '/services#websites',
+  },
+];
+---
+<section class="bg-surface py-20">
+  <div class="mx-auto max-w-7xl px-6">
+    <SectionHeading
+      heading="Services"
+      subheading="Practical IT, automation and AI solutions designed for SMEs that need secure, modern and efficient business systems."
+    />
+    <div class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      {services.map((s) => (
+        <ServiceCard
+          icon={s.icon}
+          title={s.title}
+          description={s.description}
+          items={s.items}
+          href={s.href}
+        />
+      ))}
+    </div>
+  </div>
+</section>

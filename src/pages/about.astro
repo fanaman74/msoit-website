@@ -1,0 +1,32 @@
+---
+import Layout from '../layouts/Layout.astro';
+import CTASection from '../components/sections/CTASection.astro';
+import WhyWorkWithMe from '../components/sections/WhyWorkWithMe.astro';
+import Process from '../components/sections/Process.astro';
+---
+
+<Layout title="About" description="Senior IT professional helping SMEs with secure systems, automation and modern cloud solutions.">
+  <!-- Hero -->
+  <section class="bg-navy-900 py-20">
+    <div class="mx-auto max-w-4xl px-6 text-center">
+      <h1 class="text-4xl font-bold text-white sm:text-5xl">About MSOIT</h1>
+      <p class="mt-4 text-lg text-slate-400">Making Sense of IT</p>
+    </div>
+  </section>
+
+  <!-- About Copy -->
+  <section class="bg-white py-20">
+    <div class="mx-auto max-w-3xl px-6">
+      <h2 class="text-2xl font-bold text-slate-900">Senior IT expertise for SMEs that need secure, modern and practical technology solutions.</h2>
+      <div class="mt-8 space-y-6 text-lg leading-relaxed text-slate-600">
+        <p>I help small and medium-sized businesses improve their IT systems, secure their data, automate manual work and adopt modern cloud and AI solutions.</p>
+        <p>My background is in senior IT work within complex institutional environments, where reliability, security, documentation, governance and service quality are essential. This experience allows me to bring structured, professional IT thinking to SMEs that need practical support without unnecessary complexity.</p>
+        <p>My approach is simple: understand the business problem first, then design the right technical solution. Whether the need is Microsoft 365, cybersecurity, automation, AI document management or a modern website, the focus is always on making the business more secure, organised and efficient.</p>
+      </div>
+    </div>
+  </section>
+
+  <WhyWorkWithMe />
+  <Process />
+  <CTASection />
+</Layout>
