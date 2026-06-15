@@ -11,14 +11,17 @@ interface ContactForm {
 
 export const POST: APIRoute = async ({ request }) => {
   try {
-    const data = await request.formData();
+    const contentType = request.headers.get('content-type') || '';
+    const data = contentType.includes('application/json')
+      ? await request.json()
+      : Object.fromEntries((await request.formData()).entries());
 
-    const name = (data.get('name') as string)?.trim();
-    const email = (data.get('email') as string)?.trim();
-    const company = (data.get('company') as string)?.trim() || '';
-    const phone = (data.get('phone') as string)?.trim() || '';
-    const area = (data.get('area') as string)?.trim() || '';
-    const message = (data.get('message') as string)?.trim() || '';
+    const name = String(data.name || '').trim();
+    const email = String(data.email || '').trim();
+    const company = String(data.company || '').trim();
+    const phone = String(data.phone || '').trim();
+    const area = String(data.area || '').trim();
+    const message = String(data.message || '').trim();
 
     // Validate required fields
     if (!name) {

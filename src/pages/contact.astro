@@ -82,7 +82,12 @@ const areas = [
 
           try {
             const formData = new FormData(form);
-            const res = await fetch('/api/contact', { method: 'POST', body: formData });
+            const payload = Object.fromEntries(formData.entries());
+            const res = await fetch('/api/contact', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(payload),
+            });
             const data = await res.json();
 
             if (data.success) {
