@@ -1,0 +1,162 @@
+---
+import '../styles/global.css';
+
+const COOKIE_NAME = 'msoit_admin';
+const TOKEN = Buffer.from('Manchester74!!!').toString('base64');
+
+const isAuthed = Astro.cookies.get(COOKIE_NAME)?.value === TOKEN;
+const showError = Astro.url.searchParams.get('error') === '1';
+
+let leads: Record<string, unknown>[] = [];
+
+if (isAuthed) {
+  const supabaseUrl = import.meta.env.SUPABASE_URL;
+  const serviceRoleKey = import.meta.env.SUPABASE_SERVICE_ROLE_KEY;
+
+  if (supabaseUrl && serviceRoleKey) {
+    const res = await fetch(
+      `${supabaseUrl.replace(/\/$/, '')}/rest/v1/lead_submissions?order=submitted_at.desc&limit=200`,
+      {
+        headers: {
+          apikey: serviceRoleKey,
+          Authorization: `Bearer ${serviceRoleKey}`,
+          'Content-Type': 'application/json',
+        },
+      }
+    );
+    if (res.ok) {
+      leads = await res.json();
+    }
+  }
+}
+---
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin — MSOIT</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', sans-serif; background: #f5f5f5; color: #111; min-height: 100vh; }
+
+    /* Login */
+    .login-wrap { display: flex; align-items: center; justify-content: center; min-height: 100vh; }
+    .login-card { background: #fff; border: 1px solid #111; padding: 2.5rem; width: 100%; max-width: 380px; }
+    .login-card h1 { font-size: 1.25rem; font-weight: 700; margin-bottom: 1.5rem; }
+    .login-card label { display: block; font-size: 0.75rem; font-weight: 600; margin-bottom: 0.4rem; }
+    .login-card input[type="password"] {
+      width: 100%; border: 1px solid #111; padding: 0.6rem 0.75rem;
+      font-size: 0.9rem; outline: none; font-family: inherit;
+    }
+    .login-card input[type="password"]:focus { outline: 2px solid #f97316; outline-offset: -2px; }
+    .login-card button {
+      margin-top: 1rem; width: 100%; background: #111; color: #fff;
+      border: none; padding: 0.7rem; font-size: 0.9rem; font-weight: 600;
+      cursor: pointer; font-family: inherit;
+    }
+    .login-card button:hover { background: #f97316; color: #111; }
+    .error-msg { margin-top: 0.75rem; font-size: 0.8rem; color: #dc2626; font-weight: 500; }
+
+    /* Admin dashboard */
+    .admin-wrap { max-width: 1400px; margin: 0 auto; padding: 2rem 1.5rem; }
+    .admin-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 2rem; border-bottom: 2px solid #111; padding-bottom: 1rem; }
+    .admin-header h1 { font-size: 1.4rem; font-weight: 700; }
+    .admin-header span { font-size: 0.8rem; color: #555; }
+    .badge { display: inline-block; background: #f97316; color: #111; font-size: 0.7rem; font-weight: 700; padding: 0.2rem 0.5rem; margin-left: 0.5rem; }
+    .empty { text-align: center; padding: 3rem; color: #777; font-size: 0.95rem; }
+
+    /* Table */
+    .table-wrap { overflow-x: auto; background: #fff; border: 1px solid #111; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
+    thead { background: #111; color: #fff; }
+    th { padding: 0.65rem 0.85rem; text-align: left; font-weight: 600; white-space: nowrap; }
+    td { padding: 0.65rem 0.85rem; border-bottom: 1px solid #e5e5e5; vertical-align: top; }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: #fafafa; }
+    .tag { display: inline-block; background: #f0f0f0; border: 1px solid #ddd; font-size: 0.7rem; padding: 0.15rem 0.4rem; border-radius: 2px; }
+    .tag-area { background: #fff7ed; border-color: #fed7aa; color: #9a3412; }
+    .mono { font-family: monospace; font-size: 0.75rem; color: #555; }
+    .date { white-space: nowrap; color: #555; font-size: 0.75rem; }
+
+    /* UTM collapsible section per row */
+    .utm-toggle { font-size: 0.7rem; color: #f97316; cursor: pointer; text-decoration: underline; background: none; border: none; font-family: inherit; }
+  </style>
+</head>
+<body>
+
+{!isAuthed ? (
+  <div class="login-wrap">
+    <div class="login-card">
+      <h1>MSOIT Admin</h1>
+      <form method="POST" action="/api/admin-login">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" required autofocus />
+        {showError && <p class="error-msg">Incorrect password. Try again.</p>}
+        <button type="submit">Sign in</button>
+      </form>
+    </div>
+  </div>
+) : (
+  <div class="admin-wrap">
+    <div class="admin-header">
+      <h1>
+        Lead Submissions
+        <span class="badge">{leads.length}</span>
+      </h1>
+      <span>MSOIT Admin · <a href="/api/admin-logout" style="color:#f97316;text-decoration:none;font-weight:600;">Sign out</a></span>
+    </div>
+
+    {leads.length === 0 ? (
+      <p class="empty">No leads yet. They will appear here once the contact form is submitted.</p>
+    ) : (
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Name</th>
+              <th>Company</th>
+              <th>Email</th>
+              <th>Phone</th>
+              <th>Area</th>
+              <th>Message</th>
+              <th>Lang</th>
+              <th>Source</th>
+            </tr>
+          </thead>
+          <tbody>
+            {leads.map((lead) => (
+              <tr>
+                <td class="date">
+                  {new Date(lead.submitted_at as string).toLocaleDateString('en-GB', {
+                    day: '2-digit', month: 'short', year: 'numeric',
+                    hour: '2-digit', minute: '2-digit',
+                  })}
+                </td>
+                <td><strong>{lead.name as string}</strong></td>
+                <td>{lead.company as string || '—'}</td>
+                <td><a href={`mailto:${lead.email}`} style="color:#f97316;">{lead.email as string}</a></td>
+                <td class="mono">{lead.phone as string || '—'}</td>
+                <td>{lead.area ? <span class="tag tag-area">{lead.area as string}</span> : '—'}</td>
+                <td style="max-width:280px;white-space:pre-wrap;">{lead.message as string || '—'}</td>
+                <td><span class="tag">{lead.language as string || '—'}</span></td>
+                <td class="mono">
+                  {lead.utm_source ? <span>{lead.utm_source as string}</span> : <span style="color:#aaa">direct</span>}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    )}
+  </div>
+)}
+
+</body>
+</html>
