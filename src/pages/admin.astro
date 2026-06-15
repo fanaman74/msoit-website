@@ -8,7 +8,7 @@ const isAuthed = Astro.cookies.get(COOKIE_NAME)?.value === TOKEN;
 const showError = Astro.url.searchParams.get('error') === '1';
 
 let leads: Record<string, unknown>[] = [];
-let repliesByLead: Record<string, { subject: string; message: string; sent_at: string }[]> = {};
+let repliesByLead: Record<string, { subject: string; message: string; sent_at: string; direction: string }[]> = {};
 
 if (isAuthed) {
   const supabaseUrl = import.meta.env.SUPABASE_URL || process.env.SUPABASE_URL;
@@ -30,10 +30,10 @@ if (isAuthed) {
     if (leadsRes.ok) leads = await leadsRes.json();
 
     if (repliesRes.ok) {
-      const allReplies: { lead_id: string; subject: string; message: string; sent_at: string }[] = await repliesRes.json();
+      const allReplies: { lead_id: string; subject: string; message: string; sent_at: string; direction: string }[] = await repliesRes.json();
       for (const r of allReplies) {
         if (!repliesByLead[r.lead_id]) repliesByLead[r.lead_id] = [];
-        repliesByLead[r.lead_id].push({ subject: r.subject, message: r.message, sent_at: r.sent_at });
+        repliesByLead[r.lead_id].push({ subject: r.subject, message: r.message, sent_at: r.sent_at, direction: r.direction || 'outbound' });
       }
     }
   }
@@ -265,10 +265,13 @@ if (isAuthed) {
                             </div>
                           )}
                           {replies.map((r) => (
-                            <div class="reply-bubble">
+                            <div class={`reply-bubble${r.direction === 'inbound' ? ' reply-bubble--inbound' : ''}`}>
                               <div class="reply-bubble-subject">{r.subject}</div>
                               <div class="reply-bubble-body">{r.message}</div>
-                              <div class="reply-bubble-meta">{new Date(r.sent_at).toLocaleDateString('en-GB', { day:'2-digit', month:'short', year:'numeric', hour:'2-digit', minute:'2-digit' })} · You (MSOIT)</div>
+                              <div class="reply-bubble-meta">
+                                {new Date(r.sent_at).toLocaleDateString('en-GB', { day:'2-digit', month:'short', year:'numeric', hour:'2-digit', minute:'2-digit' })}
+                                {' · '}{r.direction === 'inbound' ? (lead.name as string) : 'You (MSOIT)'}
+                              </div>
                             </div>
                           ))}
                         </div>
