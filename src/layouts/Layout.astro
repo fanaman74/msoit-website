@@ -8,10 +8,76 @@ interface Props {
   title: string;
   description: string;
   ogImage?: string;
+  keywords?: string[];
 }
 
-const { title, description, ogImage = '/images/og-default.png' } = Astro.props;
+const {
+  title,
+  description,
+  ogImage = '/images/og-default.png',
+  keywords = [
+    'IT consultancy Belgium',
+    'SME IT services Belgium',
+    'Microsoft 365 consultant Belgium',
+    'cybersecurity for SMEs',
+    'business automation Belgium',
+    'AI consulting Belgium',
+  ],
+} = Astro.props;
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const siteURL = new URL('/', Astro.site);
+const fullTitle = `${title} | MSOIT — Belgium SME IT Services`;
+const structuredData = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'ProfessionalService',
+    '@id': `${siteURL}#business`,
+    name: 'MSOIT — Making Sense of IT',
+    alternateName: 'MSOIT',
+    description: 'Belgium-focused IT consultancy for SMEs. Microsoft 365, cybersecurity, automation, AI document systems, websites and AI opportunity reviews.',
+    url: siteURL,
+    image: new URL(ogImage, Astro.site),
+    areaServed: [
+      { '@type': 'Country', name: 'Belgium' },
+      { '@type': 'AdministrativeArea', name: 'Flanders' },
+      { '@type': 'AdministrativeArea', name: 'Wallonia' },
+      { '@type': 'City', name: 'Brussels' },
+      { '@type': 'City', name: 'Antwerp' },
+      { '@type': 'City', name: 'Ghent' },
+    ],
+    availableLanguage: ['en', 'fr', 'nl'],
+    serviceType: [
+      'IT Consultancy Belgium',
+      'Microsoft 365 Consultancy',
+      'Cybersecurity for SMEs',
+      'Business Automation',
+      'AI Consulting',
+      'AI Document Management',
+      'Web Design for SMEs',
+    ],
+    hasOfferCatalog: {
+      '@type': 'OfferCatalog',
+      name: 'Belgium SME IT services',
+      itemListElement: [
+        { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Microsoft 365 and cloud productivity' } },
+        { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Cybersecurity and IT governance' } },
+        { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Business process automation' } },
+        { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'AI opportunity review' } },
+        { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'AI document and knowledge systems' } },
+        { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Professional websites and digital presence' } },
+      ],
+    },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    '@id': `${siteURL}#website`,
+    name: 'MSOIT',
+    url: siteURL,
+    inLanguage: ['en-GB', 'fr-BE', 'nl-BE'],
+    publisher: { '@id': `${siteURL}#business` },
+  },
+];
 ---
 <!doctype html>
 <html lang="en-GB">
@@ -22,20 +88,30 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     <link rel="canonical" href={canonicalURL} />
 
     <!-- Primary Meta Tags -->
-    <title>{title} | MSOIT — Making Sense of IT</title>
-    <meta name="title" content={`${title} | MSOIT — Making Sense of IT`} />
+    <title>{fullTitle}</title>
+    <meta name="title" content={fullTitle} />
     <meta name="description" content={description} />
+    <meta name="keywords" content={keywords.join(', ')} />
+    <meta name="author" content="MSOIT" />
+    <meta name="application-name" content="MSOIT" />
+    <meta name="theme-color" content="#ff4f00" />
+    <meta name="geo.region" content="BE" />
+    <meta name="geo.placename" content="Belgium" />
+    <meta http-equiv="content-language" content="en, fr, nl" />
 
     <!-- Open Graph -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content={canonicalURL} />
-    <meta property="og:title" content={`${title} | MSOIT`} />
+    <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content={new URL(ogImage, Astro.site)} />
+    <meta property="og:locale" content="en_BE" />
+    <meta property="og:locale:alternate" content="fr_BE" />
+    <meta property="og:locale:alternate" content="nl_BE" />
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content={`${title} | MSOIT`} />
+    <meta name="twitter:title" content={fullTitle} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={new URL(ogImage, Astro.site)} />
 
@@ -43,25 +119,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 
     <!-- JSON-LD Structured Data -->
-    <script type="application/ld+json" set:html={JSON.stringify({
-      "@context": "https://schema.org",
-      "@type": "ProfessionalService",
-      "name": "MSOIT — Making Sense of IT",
-      "description": "Professional IT consultancy for SMEs. Microsoft 365, cybersecurity, automation, AI solutions and websites.",
-      "url": Astro.site,
-      "serviceType": [
-        "IT Consultancy",
-        "Cybersecurity",
-        "Business Automation",
-        "AI Consulting",
-        "Microsoft 365",
-        "Web Design"
-      ],
-      "areaServed": {
-        "@type": "Country",
-        "name": "United Kingdom"
-      }
-    })} />
+    <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
   </head>
   <body class="flex min-h-screen flex-col bg-white">
     <a href="#main" class="skip-link">Skip to content</a>

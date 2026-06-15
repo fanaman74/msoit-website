@@ -522,6 +522,32 @@
     }
   };
 
+  Object.assign(dictionaries.fr, {
+    'Belgium IT services for secure, automated SMEs': 'Services IT en Belgique pour PME securisees et automatisees',
+    'Senior IT consultancy for Belgian SMEs that need clearer Microsoft 365 systems, stronger cybersecurity and practical automation — without vague AI hype or generic support packages.': 'Conseil IT senior pour les PME belges qui veulent des systemes Microsoft 365 plus clairs, une cybersecurite renforcee et une automatisation concrete, sans promesses IA vagues ni support generique.',
+    'MSOIT helps SMEs in Belgium bring structure, security and automation to their IT environment so day-to-day work becomes clearer, safer and less dependent on manual workarounds.': 'MSOIT aide les PME en Belgique a structurer, securiser et automatiser leur environnement IT afin que le travail quotidien devienne plus clair, plus sur et moins dependant de solutions manuelles.',
+    'Practical IT, automation and AI solutions for Belgian SMEs that need secure, modern and efficient business systems.': 'Solutions IT, automatisation et IA concretes pour les PME belges qui ont besoin de systemes securises, modernes et efficaces.',
+    'Book a free 30-minute IT review to discuss your current systems, security risks, manual processes and opportunities for automation or AI in your Belgian SME.': 'Reservez un audit IT gratuit de 30 minutes pour discuter des systemes, risques de securite, processus manuels et opportunites d automatisation ou d IA de votre PME belge.',
+    'Focused IT services for Belgian SMEs.': 'Des services IT cibles pour les PME belges.',
+    'I help SMEs across Belgium improve how they manage technology, documents, security, workflows and AI adoption.': 'J aide les PME partout en Belgique a mieux gerer la technologie, les documents, la securite, les flux de travail et l adoption de l IA.',
+    "Use the form below to request a free 30-minute review of your Belgian SME's current IT systems, security concerns, manual processes, website or AI opportunities.": 'Utilisez le formulaire ci-dessous pour demander un audit gratuit de 30 minutes des systemes IT, risques de securite, processus manuels, site web ou opportunites IA de votre PME belge.',
+    'Senior IT expertise for Belgian SMEs that need secure, modern and practical technology solutions.': 'Expertise IT senior pour les PME belges qui ont besoin de solutions technologiques securisees, modernes et pratiques.',
+    'Understand where AI can genuinely help your Belgian SME before investing in tools or platforms.': 'Comprenez ou l IA peut vraiment aider votre PME belge avant d investir dans des outils ou plateformes.',
+  });
+
+  Object.assign(dictionaries.nl, {
+    'Belgium IT services for secure, automated SMEs': 'Belgische IT-diensten voor veilige, geautomatiseerde kmo s',
+    'Senior IT consultancy for Belgian SMEs that need clearer Microsoft 365 systems, stronger cybersecurity and practical automation — without vague AI hype or generic support packages.': 'Senior IT-advies voor Belgische kmo s die duidelijkere Microsoft 365-systemen, sterkere cybersecurity en praktische automatisering nodig hebben, zonder vage AI-hype of generieke supportpakketten.',
+    'MSOIT helps SMEs in Belgium bring structure, security and automation to their IT environment so day-to-day work becomes clearer, safer and less dependent on manual workarounds.': 'MSOIT helpt kmo s in Belgie structuur, beveiliging en automatisering aan te brengen in hun IT-omgeving, zodat dagelijks werk duidelijker, veiliger en minder afhankelijk van handmatige omwegen wordt.',
+    'Practical IT, automation and AI solutions for Belgian SMEs that need secure, modern and efficient business systems.': 'Praktische IT-, automatiserings- en AI-oplossingen voor Belgische kmo s die veilige, moderne en efficiente bedrijfssystemen nodig hebben.',
+    'Book a free 30-minute IT review to discuss your current systems, security risks, manual processes and opportunities for automation or AI in your Belgian SME.': 'Plan een gratis IT-audit van 30 minuten om de systemen, beveiligingsrisico s, handmatige processen en kansen voor automatisering of AI in uw Belgische kmo te bespreken.',
+    'Focused IT services for Belgian SMEs.': 'Gerichte IT-diensten voor Belgische kmo s.',
+    'I help SMEs across Belgium improve how they manage technology, documents, security, workflows and AI adoption.': 'Ik help kmo s in heel Belgie technologie, documenten, beveiliging, workflows en AI-adoptie beter te beheren.',
+    "Use the form below to request a free 30-minute review of your Belgian SME's current IT systems, security concerns, manual processes, website or AI opportunities.": 'Gebruik het formulier hieronder om een gratis audit van 30 minuten aan te vragen voor de huidige IT-systemen, beveiligingszorgen, handmatige processen, website of AI-kansen van uw Belgische kmo.',
+    'Senior IT expertise for Belgian SMEs that need secure, modern and practical technology solutions.': 'Senior IT-expertise voor Belgische kmo s die veilige, moderne en praktische technologische oplossingen nodig hebben.',
+    'Understand where AI can genuinely help your Belgian SME before investing in tools or platforms.': 'Begrijp waar AI uw Belgische kmo echt kan helpen voordat u investeert in tools of platformen.',
+  });
+
   const originals = new WeakMap();
   const placeholderOriginals = new WeakMap();
   const titleOriginal = document.title;

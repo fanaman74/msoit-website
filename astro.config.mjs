@@ -5,7 +5,7 @@ import react from '@astrojs/react';
 import tailwindcss from '@tailwindcss/vite';
 
 export default defineConfig({
-  site: 'https://msoit.co.uk',
+  site: process.env.PUBLIC_SITE_URL || 'https://msoit.eu',
   output: 'server',
   adapter: node({
     mode: 'standalone',

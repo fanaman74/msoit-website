@@ -15,13 +15,17 @@ const inputClass = 'mt-2 w-full border border-[#111111] bg-white px-4 py-3 text-
 const labelClass = 'block text-sm font-bold text-[#111111]';
 ---
 
-<Layout title="Contact" description="Book a free 30-minute IT review to discuss your systems, security, automation and AI opportunities.">
+<Layout
+  title="Contact MSOIT for a Belgium SME IT Review"
+  description="Book a free 30-minute IT review for your Belgian SME to discuss Microsoft 365, cybersecurity, automation, AI and website opportunities."
+  keywords={['free IT review Belgium', 'SME IT consultant Belgium', 'Microsoft 365 review Belgium', 'cybersecurity review Belgium']}
+>
   <section class="section-shell bg-white py-20">
     <div class="surface-line pointer-events-none absolute inset-0" aria-hidden="true"></div>
     <div class="relative mx-auto max-w-7xl px-6" data-reveal>
       <p class="mb-5 text-sm font-bold text-accent">Contact</p>
       <h1 class="text-balance max-w-5xl text-6xl font-bold leading-[0.88] text-[#111111] sm:text-8xl">Book a free IT review.</h1>
-      <p class="mt-8 max-w-2xl text-lg leading-8 text-[#444444]">Use the form below to request a free 30-minute review of your current IT systems, security concerns, manual processes, website or AI opportunities.</p>
+      <p class="mt-8 max-w-2xl text-lg leading-8 text-[#444444]">Use the form below to request a free 30-minute review of your Belgian SME's current IT systems, security concerns, manual processes, website or AI opportunities.</p>
     </div>
   </section>
 
@@ -96,6 +100,13 @@ const labelClass = 'block text-sm font-bold text-[#111111]';
           try {
             const formData = new FormData(form);
             const payload = Object.fromEntries(formData.entries());
+            const params = new URLSearchParams(window.location.search);
+            payload.language = localStorage.getItem('msoit:lang') || 'en';
+            payload.page_url = window.location.href;
+            payload.referrer = document.referrer;
+            ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content'].forEach((key) => {
+              payload[key] = params.get(key) || '';
+            });
             const res = await fetch('/api/contact', {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
