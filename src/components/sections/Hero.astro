@@ -6,47 +6,65 @@ const beltItems = ['Microsoft 365', 'Cybersecurity', 'Automation', 'AI systems',
 <section class="relative isolate overflow-hidden bg-white">
   <div class="surface-line pointer-events-none absolute inset-0" aria-hidden="true"></div>
 
-  <!-- Animated orange tracer travelling along the background grid lines -->
-  <svg class="pointer-events-none absolute inset-0 h-full w-full" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
-    <path id="hero-grid-tracer" d="
-      M 0 144
-      H 432
-      V 72
-      H 720
-      V 216
-      H 576
-      V 288
-      H 864
-      V 144
-      H 1008
-      V 360
-      H 720
-      V 432
-      H 936
-      V 288
-      H 1152
-    " fill="none" stroke="#f97316" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
-      stroke-dasharray="60 9999"
-      opacity="0.55">
-      <animate attributeName="stroke-dashoffset" from="0" to="-1800" dur="9s" repeatCount="indefinite" calcMode="linear"/>
-    </path>
-    <path id="hero-grid-tracer-2" d="
-      M 1152 360
-      V 504
-      H 864
-      V 432
-      H 648
-      V 576
-      H 432
-      V 504
-      H 216
-      V 648
-      H 0
-    " fill="none" stroke="#f97316" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
-      stroke-dasharray="60 9999"
-      opacity="0.35">
-      <animate attributeName="stroke-dashoffset" from="0" to="-1800" dur="12s" begin="4s" repeatCount="indefinite" calcMode="linear"/>
-    </path>
+  <!-- Mouse-following orange tracer along grid lines -->
+  <svg id="hero-tracer-svg" class="pointer-events-none absolute inset-0 h-full w-full" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+    <path id="hero-mouse-tracer" d="M 0 144 H 360 V 216 H 720"
+      fill="none" stroke="#f97316" stroke-width="1.5"
+      stroke-linecap="round" stroke-linejoin="round" opacity="0.55"/>
+  </svg>
+
+  <script>
+    (function () {
+      const GRID = 72;
+      const section = document.querySelector('section.relative.isolate');
+      const tracer = document.getElementById('hero-mouse-tracer');
+      if (!section || !tracer) return;
+
+      let offset = 0;
+      let mouseX = 360, mouseY = 216;
+      let rafId: number;
+
+      function snap(v: number) {
+        return Math.round(v / GRID) * GRID;
+      }
+
+      // Build a circuit-board style path with 3 turns from top-left to mouse
+      function buildPath(tx: number, ty: number) {
+        const sx = 0, sy = GRID * 2; // start: (0, 144)
+        const mx = Math.max(GRID, snap(tx));
+        const my = Math.max(GRID, snap(ty));
+        // Intermediate elbow ~40% across, ~50% down
+        const ex = snap(mx * 0.4 + GRID);
+        const ey = snap(sy + (my - sy) * 0.5);
+        return `M ${sx} ${sy} H ${ex} V ${ey} H ${mx} V ${my}`;
+      }
+
+      function tick() {
+        const len = (tracer as SVGPathElement).getTotalLength();
+        if (len > 0) {
+          offset = (offset + 2.5) % len;
+          tracer.style.strokeDasharray = `55 ${len + 55}`;
+          tracer.style.strokeDashoffset = String(-offset);
+        }
+        rafId = requestAnimationFrame(tick);
+      }
+
+      section.addEventListener('mousemove', (e: Event) => {
+        const me = e as MouseEvent;
+        const rect = section.getBoundingClientRect();
+        mouseX = me.clientX - rect.left;
+        mouseY = me.clientY - rect.top;
+        tracer.setAttribute('d', buildPath(mouseX, mouseY));
+      });
+
+      section.addEventListener('mouseleave', () => {
+        // Drift back to a default idle path
+        tracer.setAttribute('d', 'M 0 144 H 360 V 216 H 720 V 288 H 504 V 360 H 864');
+      });
+
+      tick();
+    })();
+  </script>
   </svg>
   <div class="shape-ring hero-orb pointer-events-none absolute right-[-8rem] top-24 h-72 w-72" aria-hidden="true"></div>
   <div class="shape-square hero-shape pointer-events-none absolute left-6 top-28 h-10 w-10" aria-hidden="true"></div>
