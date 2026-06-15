@@ -30,8 +30,8 @@ async function storeLead(submission: ContactForm & {
   user_agent: string | null;
   ip_address: string | null;
 }) {
-  const supabaseUrl = import.meta.env.SUPABASE_URL;
-  const serviceRoleKey = import.meta.env.SUPABASE_SERVICE_ROLE_KEY;
+  const supabaseUrl = import.meta.env.SUPABASE_URL || process.env.SUPABASE_URL;
+  const serviceRoleKey = import.meta.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_SERVICE_ROLE_KEY;
 
   if (!supabaseUrl || !serviceRoleKey) {
     console.warn('[Contact Form] Supabase env vars are missing. Lead was not stored in database.');
