@@ -1,10 +1,8 @@
 import type { APIRoute } from 'astro';
 
-// Shared secret so only Zapier can post here — set ZAPIER_WEBHOOK_SECRET in Railway env vars
 const WEBHOOK_SECRET = import.meta.env.ZAPIER_WEBHOOK_SECRET || process.env.ZAPIER_WEBHOOK_SECRET || '';
 
 export const POST: APIRoute = async ({ request }) => {
-  // Verify secret if configured
   const authHeader = request.headers.get('x-webhook-secret') || '';
   if (WEBHOOK_SECRET && authHeader !== WEBHOOK_SECRET) {
     return new Response(JSON.stringify({ error: 'Unauthorized' }), { status: 401 });
@@ -17,19 +15,21 @@ export const POST: APIRoute = async ({ request }) => {
     return new Response(JSON.stringify({ error: 'Invalid JSON' }), { status: 400 });
   }
 
-  // Extract plain email from "Name <email@example.com>" format
-  const rawFrom = (body.from_email || '').trim();
+  const rawFrom   = (body.from_email  || '').trim();
+  const inReplyTo = (body.in_reply_to || '').trim();
+  const subject   = (body.subject     || '(no subject)').trim();
+  const message   = (body.body        || '').trim();
+
+  // Extract plain email from "Name <email>" format
   const emailMatch = rawFrom.match(/<([^>]+)>/) || rawFrom.match(/([^\s]+@[^\s]+)/);
-  const fromEmail = (emailMatch ? emailMatch[1] : rawFrom).toLowerCase();
-  const subject   = (body.subject   || '(no subject)').trim();
-  const message   = (body.body      || '').trim();
+  const fromEmail  = (emailMatch ? emailMatch[1] : rawFrom).toLowerCase();
 
   if (!fromEmail) {
     return new Response(JSON.stringify({ error: 'from_email required' }), { status: 400 });
   }
 
-  const supabaseUrl     = import.meta.env.SUPABASE_URL     || process.env.SUPABASE_URL;
-  const serviceRoleKey  = import.meta.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_SERVICE_ROLE_KEY;
+  const supabaseUrl    = import.meta.env.SUPABASE_URL || process.env.SUPABASE_URL;
+  const serviceRoleKey = import.meta.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_SERVICE_ROLE_KEY;
 
   if (!supabaseUrl || !serviceRoleKey) {
     return new Response(JSON.stringify({ error: 'Supabase not configured' }), { status: 500 });
@@ -42,26 +42,36 @@ export const POST: APIRoute = async ({ request }) => {
     'Content-Type': 'application/json',
   };
 
-  // Find lead by email address
-  const leadRes = await fetch(
-    `${base}/rest/v1/lead_submissions?email=eq.${encodeURIComponent(fromEmail)}&order=submitted_at.desc&limit=1`,
-    { headers }
-  );
+  let leadId: string | null = null;
 
-  if (!leadRes.ok) {
-    return new Response(JSON.stringify({ error: 'Failed to query leads' }), { status: 500 });
+  // 1. Try matching via In-Reply-To message ID (most accurate)
+  if (inReplyTo) {
+    const replyRes = await fetch(
+      `${base}/rest/v1/lead_replies?message_id=eq.${encodeURIComponent(inReplyTo)}&order=sent_at.desc&limit=1&select=lead_id`,
+      { headers }
+    );
+    if (replyRes.ok) {
+      const rows: { lead_id: string }[] = await replyRes.json();
+      if (rows.length) leadId = rows[0].lead_id;
+    }
   }
 
-  const leads: { id: string }[] = await leadRes.json();
+  // 2. Fall back to matching by sender email address
+  if (!leadId) {
+    const leadRes = await fetch(
+      `${base}/rest/v1/lead_submissions?email=eq.${encodeURIComponent(fromEmail)}&order=submitted_at.desc&limit=1&select=id`,
+      { headers }
+    );
+    if (leadRes.ok) {
+      const leads: { id: string }[] = await leadRes.json();
+      if (leads.length) leadId = leads[0].id;
+    }
+  }
 
-  if (!leads.length) {
-    // No matching lead — still return 200 so Zapier doesn't retry
+  if (!leadId) {
     return new Response(JSON.stringify({ ok: false, reason: 'no_matching_lead' }), { status: 200 });
   }
 
-  const leadId = leads[0].id;
-
-  // Store inbound reply
   const insertRes = await fetch(`${base}/rest/v1/lead_replies`, {
     method: 'POST',
     headers: { ...headers, Prefer: 'return=minimal' },

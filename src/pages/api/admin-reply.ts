@@ -61,7 +61,7 @@ export const POST: APIRoute = async ({ request, cookies }) => {
 </html>`;
 
   try {
-    await resend.emails.send({
+    const sent = await resend.emails.send({
       from: 'MSOIT <hello@msoit.eu>',
       to,
       replyTo: 'hello@msoit.eu',
@@ -74,6 +74,8 @@ export const POST: APIRoute = async ({ request, cookies }) => {
       const supabaseUrl = import.meta.env.SUPABASE_URL || process.env.SUPABASE_URL;
       const serviceRoleKey = import.meta.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_SERVICE_ROLE_KEY;
       if (supabaseUrl && serviceRoleKey) {
+        // Resend returns message ID formatted as UUID — store with angle brackets as per RFC 5322
+        const messageId = sent.data?.id ? `<${sent.data.id}@resend.dev>` : null;
         await fetch(`${supabaseUrl.replace(/\/$/, '')}/rest/v1/lead_replies`, {
           method: 'POST',
           headers: {
@@ -82,7 +84,7 @@ export const POST: APIRoute = async ({ request, cookies }) => {
             'Content-Type': 'application/json',
             Prefer: 'return=minimal',
           },
-          body: JSON.stringify({ lead_id: leadId, subject, message }),
+          body: JSON.stringify({ lead_id: leadId, subject, message, direction: 'outbound', message_id: messageId }),
         });
       }
     }
