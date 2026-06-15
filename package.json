@@ -21,9 +21,13 @@
   "license": "ISC",
   "dependencies": {
     "@astrojs/node": "^9.2.1",
+    "@astrojs/react": "^5.0.7",
     "@astrojs/sitemap": "^3.4.1",
     "@lucide/astro": "^0.556.0",
-    "astro": "^5.13.2"
+    "astro": "^5.13.2",
+    "gsap": "^3.15.0",
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7"
   },
   "devDependencies": {
     "@tailwindcss/vite": "^4.3.1",

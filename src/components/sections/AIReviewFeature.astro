@@ -1,6 +1,5 @@
 ---
 import Button from '../ui/Button.astro';
-import { Brain, FileSearch, Shield, Workflow, BookOpen, Map } from '@lucide/astro';
 
 const deliverables = [
   'AI opportunity summary',
@@ -12,48 +11,37 @@ const deliverables = [
   'Suggested next steps',
 ];
 ---
-<section class="relative overflow-hidden bg-gradient-to-br from-accent-dark to-accent py-20">
-  <!-- Subtle pattern -->
-  <div class="pointer-events-none absolute inset-0 opacity-10" aria-hidden="true">
-    <svg class="h-full w-full">
-      <defs>
-        <pattern id="dots" width="24" height="24" patternUnits="userSpaceOnUse">
-          <circle cx="2" cy="2" r="1" fill="white" />
-        </pattern>
-      </defs>
-      <rect width="100%" height="100%" fill="url(#dots)" />
-    </svg>
-  </div>
+<section class="relative overflow-hidden bg-navy-950 py-24">
+  <div class="surface-line pointer-events-none absolute inset-0" aria-hidden="true"></div>
+  <div class="pointer-events-none absolute left-1/2 top-0 h-px w-[68rem] -translate-x-1/2 bg-gradient-to-r from-transparent via-accent/60 to-transparent" aria-hidden="true"></div>
 
-  <div class="relative mx-auto max-w-7xl px-6">
-    <div class="grid items-center gap-12 lg:grid-cols-2">
-      <!-- Left: Copy -->
-      <div>
-        <p class="mb-3 text-sm font-semibold uppercase tracking-wider text-blue-200">Featured Service</p>
-        <h2 class="text-3xl font-bold text-white sm:text-4xl">AI Opportunity Review</h2>
-        <p class="mt-4 text-lg leading-relaxed text-blue-100">
-          Understand where AI can genuinely help your business before investing in tools or platforms.
+  <div class="relative mx-auto max-w-7xl px-6" data-reveal>
+    <div class="grid items-stretch gap-6 lg:grid-cols-[1.1fr_.9fr]">
+      <div class="rounded-2xl border border-white/10 bg-white/[0.035] p-8 sm:p-10">
+        <p class="mb-5 text-xs font-medium uppercase tracking-[0.22em] text-accent-light">Featured Service</p>
+        <h2 class="max-w-2xl text-4xl font-medium leading-tight tracking-[-0.045em] text-[#f7f8f8] sm:text-5xl">
+          AI with a business case, not a buzzword.
+        </h2>
+        <p class="mt-6 max-w-2xl text-lg leading-8 text-slate-400">
+          The AI Opportunity Review identifies realistic, safe use cases before you invest in tools. It focuses on document search, summarisation, process automation, Microsoft Copilot readiness and governance.
         </p>
-        <p class="mt-4 text-base leading-relaxed text-blue-100/80">
-          Many businesses are interested in AI, but they are not sure where to start. The AI Opportunity Review helps your business identify realistic, practical and safe AI use cases — from document search and summarisation to process automation and Microsoft Copilot adoption.
-        </p>
-        <div class="mt-8">
-          <Button href="/ai-review" variant="secondary" size="lg">
-            Learn more about AI Opportunity Review
-          </Button>
+        <div class="mt-9">
+          <Button href="/ai-review" variant="primary" size="lg">Explore the AI Opportunity Review</Button>
         </div>
       </div>
 
-      <!-- Right: Deliverables -->
-      <div class="rounded-2xl border border-white/20 bg-white/10 p-8 backdrop-blur-sm">
-        <h3 class="mb-6 text-lg font-semibold text-white">What you receive</h3>
-        <ul class="space-y-4">
+      <div class="rounded-2xl border border-white/10 bg-navy-900/75 p-8 sm:p-10" data-stagger>
+        <div class="mb-7 flex items-center justify-between gap-4">
+          <h3 class="text-lg font-medium text-white">Review outputs</h3>
+          <span class="rounded-full border border-white/10 px-3 py-1 text-xs text-slate-400">Practical roadmap</span>
+        </div>
+        <ul class="space-y-3">
           {deliverables.map((d) => (
-            <li class="flex items-start gap-3 text-white">
-              <svg class="mt-0.5 h-5 w-5 flex-shrink-0 text-blue-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+            <li data-stagger-item class="flex items-start gap-3 rounded-lg border border-white/8 bg-white/[0.025] p-3 text-slate-200">
+              <svg class="mt-0.5 h-5 w-5 flex-shrink-0 text-success" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
               </svg>
-              <span class="text-base">{d}</span>
+              <span class="text-sm leading-6">{d}</span>
             </li>
           ))}
         </ul>

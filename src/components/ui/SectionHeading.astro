@@ -11,8 +11,8 @@ const { heading, subheading, align = 'center', dark = false } = Astro.props;
 <div class:list={[align === 'center' ? 'text-center' : 'text-left']}>
   <h2
     class:list={[
-      'text-3xl font-bold tracking-tight sm:text-4xl',
-      dark ? 'text-white' : 'text-slate-900',
+      'text-3xl font-medium leading-tight tracking-[-0.045em] sm:text-5xl',
+      dark ? 'text-[#f7f8f8]' : 'text-slate-950',
     ]}
   >
     {heading}
@@ -20,7 +20,7 @@ const { heading, subheading, align = 'center', dark = false } = Astro.props;
   {subheading && (
     <p
       class:list={[
-        'mx-auto mt-4 max-w-2xl text-lg leading-relaxed',
+        'mx-auto mt-5 max-w-2xl text-base leading-7 sm:text-lg',
         dark ? 'text-slate-400' : 'text-slate-600',
         align === 'center' ? 'mx-auto' : '',
       ]}

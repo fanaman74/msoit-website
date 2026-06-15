@@ -2,6 +2,7 @@
 import '../styles/global.css';
 import Header from '../components/layout/Header.astro';
 import Footer from '../components/layout/Footer.astro';
+import SiteMotion from '../components/motion/SiteMotion';
 
 interface Props {
   title: string;
@@ -72,6 +73,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
   </head>
   <body class="flex min-h-screen flex-col">
     <a href="#main" class="skip-link">Skip to content</a>
+    <SiteMotion client:load />
     <Header />
     <main id="main" class="flex-1">
       <slot />
