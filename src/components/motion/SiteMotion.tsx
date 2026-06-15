@@ -24,19 +24,25 @@ export default function SiteMotion() {
       );
 
       gsap.to('.hero-orb', {
-        y: -24,
+        y: -22,
         x: 18,
-        scale: 1.05,
-        duration: 7,
+        rotate: 8,
+        duration: 8,
         repeat: -1,
         yoyo: true,
         ease: 'sine.inOut',
       });
 
+      gsap.fromTo(
+        '.hero-shape',
+        { rotate: -16, scale: 0.7, opacity: 0 },
+        { rotate: 0, scale: 1, opacity: 1, duration: 1, ease: 'back.out(1.8)', delay: 0.25 }
+      );
+
       gsap.utils.toArray<HTMLElement>('[data-reveal]').forEach((el) => {
         gsap.fromTo(
           el,
-          { y: 22, opacity: 1, filter: 'blur(0px)' },
+          { y: 26, opacity: 0, filter: 'blur(8px)' },
           {
             y: 0,
             opacity: 1,
@@ -56,10 +62,11 @@ export default function SiteMotion() {
         const items = group.querySelectorAll('[data-stagger-item]');
         gsap.fromTo(
           items,
-          { y: 18, opacity: 0.96 },
+          { y: 24, opacity: 0, rotate: -1.5 },
           {
             y: 0,
             opacity: 1,
+            rotate: 0,
             duration: 0.65,
             ease: 'power3.out',
             stagger: 0.055,
@@ -70,6 +77,14 @@ export default function SiteMotion() {
             },
           }
         );
+      });
+
+      gsap.utils.toArray<HTMLElement>('[data-card]').forEach((card) => {
+        gsap.to(card, {
+          y: -4,
+          duration: 0.2,
+          paused: true,
+        });
       });
 
       gsap.utils.toArray<HTMLElement>('[data-line]').forEach((line) => {

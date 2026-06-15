@@ -11,18 +11,15 @@ const deliverables = [
   'Suggested next steps',
 ];
 ---
-<section class="relative overflow-hidden bg-navy-950 py-24">
-  <div class="surface-line pointer-events-none absolute inset-0" aria-hidden="true"></div>
-  <div class="pointer-events-none absolute left-1/2 top-0 h-px w-[68rem] -translate-x-1/2 bg-gradient-to-r from-transparent via-accent/60 to-transparent" aria-hidden="true"></div>
-
+<section class="section-shell bg-[#111111] py-24">
   <div class="relative mx-auto max-w-7xl px-6" data-reveal>
     <div class="grid items-stretch gap-6 lg:grid-cols-[1.1fr_.9fr]">
-      <div class="rounded-2xl border border-white/10 bg-white/[0.035] p-8 sm:p-10">
-        <p class="mb-5 text-xs font-medium uppercase tracking-[0.22em] text-accent-light">Featured Service</p>
-        <h2 class="max-w-2xl text-4xl font-medium leading-tight tracking-[-0.045em] text-[#f7f8f8] sm:text-5xl">
+      <div class="border border-white bg-[#111111] p-8 sm:p-10">
+        <p class="mb-5 text-sm font-bold text-accent">Featured Service</p>
+        <h2 class="text-balance max-w-2xl text-5xl font-bold leading-[0.95] text-white sm:text-6xl">
           AI with a business case, not a buzzword.
         </h2>
-        <p class="mt-6 max-w-2xl text-lg leading-8 text-slate-400">
+        <p class="mt-6 max-w-2xl text-lg leading-8 text-white/72">
           The AI Opportunity Review identifies realistic, safe use cases before you invest in tools. It focuses on document search, summarisation, process automation, Microsoft Copilot readiness and governance.
         </p>
         <div class="mt-9">
@@ -30,15 +27,15 @@ const deliverables = [
         </div>
       </div>
 
-      <div class="rounded-2xl border border-white/10 bg-navy-900/75 p-8 sm:p-10" data-stagger>
+      <div class="border border-white bg-white p-8 sm:p-10" data-stagger>
         <div class="mb-7 flex items-center justify-between gap-4">
-          <h3 class="text-lg font-medium text-white">Review outputs</h3>
-          <span class="rounded-full border border-white/10 px-3 py-1 text-xs text-slate-400">Practical roadmap</span>
+          <h3 class="text-lg font-bold text-[#111111]">Review outputs</h3>
+          <span class="border border-[#111111] px-3 py-1 text-xs font-bold text-[#111111]">Practical roadmap</span>
         </div>
         <ul class="space-y-3">
           {deliverables.map((d) => (
-            <li data-stagger-item class="flex items-start gap-3 rounded-lg border border-white/8 bg-white/[0.025] p-3 text-slate-200">
-              <svg class="mt-0.5 h-5 w-5 flex-shrink-0 text-success" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2">
+            <li data-stagger-item class="flex items-start gap-3 border border-[#111111] bg-surface p-3 text-[#111111]">
+              <svg class="mt-0.5 h-5 w-5 flex-shrink-0 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
               </svg>
               <span class="text-sm leading-6">{d}</span>

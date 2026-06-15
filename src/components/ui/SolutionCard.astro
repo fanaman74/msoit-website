@@ -7,14 +7,14 @@ interface Props {
 
 const { title, description, features = [] } = Astro.props;
 ---
-<div data-stagger-item class="group relative overflow-hidden rounded-xl border border-slate-200 bg-surface p-7 transition-all duration-300 hover:-translate-y-1 hover:bg-white hover:shadow-[0_30px_45px_-30px_rgba(50,50,93,.22)]">
-  <div class="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-accent/45 to-transparent opacity-0 transition-opacity group-hover:opacity-100"></div>
-  <h3 class="mb-3 text-lg font-semibold tracking-[-0.02em] text-slate-950">{title}</h3>
-  <p class="mb-6 text-sm leading-6 text-slate-600">{description}</p>
+<div data-stagger-item data-card class="group relative overflow-hidden border border-[#111111] bg-surface p-7 transition-all duration-300 hover:-translate-y-1 hover:bg-white hover:shadow-[10px_10px_0_#111111]">
+  <div class="absolute left-0 top-0 h-2 w-full bg-accent"></div>
+  <h3 class="mb-3 mt-4 text-2xl font-bold leading-tight text-[#111111]">{title}</h3>
+  <p class="mb-6 text-sm leading-6 text-[#555555]">{description}</p>
   {features.length > 0 && (
     <ul class="space-y-2.5">
       {features.map((f) => (
-        <li class="flex items-start gap-2 text-sm text-slate-600">
+        <li class="flex items-start gap-2 text-sm text-[#444444]">
           <svg class="mt-0.5 h-4 w-4 flex-shrink-0 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
             <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
           </svg>

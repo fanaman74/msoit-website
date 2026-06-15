@@ -12,8 +12,8 @@ const strengths = [
   'Senior IT thinking without the cost of a full IT department',
 ];
 ---
-<section class="bg-surface py-24">
-  <div class="mx-auto max-w-7xl px-6" data-reveal>
+<section class="section-shell bg-surface py-24">
+  <div class="relative mx-auto max-w-7xl px-6" data-reveal>
     <div class="grid items-start gap-12 lg:grid-cols-2">
       <!-- Left: Copy -->
       <div>
@@ -21,10 +21,10 @@ const strengths = [
           heading="Senior IT experience. Practical business solutions."
           align="left"
         />
-        <p class="mt-6 text-lg leading-relaxed text-slate-600">
+        <p class="mt-6 text-lg leading-relaxed text-[#444444]">
           I bring senior IT experience from complex institutional environments where reliability, security, governance and service quality matter. My approach combines practical technical delivery with a strong understanding of business processes, documentation, compliance and user needs.
         </p>
-        <p class="mt-4 text-lg leading-relaxed text-slate-600">
+        <p class="mt-4 text-lg leading-relaxed text-[#444444]">
           I do not only install tools. I help businesses structure their systems properly, reduce risk, automate work and make technology easier to manage.
         </p>
       </div>
@@ -33,11 +33,11 @@ const strengths = [
       <div>
         <ul class="space-y-4">
           {strengths.map((s) => (
-            <li class="flex items-start gap-3">
-              <svg class="mt-1 h-5 w-5 flex-shrink-0 text-success" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <li class="flex items-start gap-3 border-b border-[#111111] py-3">
+              <svg class="mt-1 h-5 w-5 flex-shrink-0 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
-              <span class="text-base text-slate-700">{s}</span>
+              <span class="text-base font-bold text-[#111111]">{s}</span>
             </li>
           ))}
         </ul>

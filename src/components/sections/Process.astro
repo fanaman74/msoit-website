@@ -30,15 +30,13 @@ const steps = [
   },
 ];
 ---
-<section class="relative overflow-hidden bg-navy-950 py-24">
-  <div class="surface-line pointer-events-none absolute inset-0" aria-hidden="true"></div>
+<section class="section-shell bg-white py-24">
   <div class="relative mx-auto max-w-7xl px-6" data-reveal>
     <SectionHeading
       heading="How It Works"
       subheading="A simple, structured process from initial conversation to delivered solution."
-      dark={true}
     />
-    <div class="mt-16 grid gap-12 sm:grid-cols-2 lg:grid-cols-5" data-stagger>
+    <div class="mt-16 grid gap-5 sm:grid-cols-2 lg:grid-cols-5" data-stagger>
       {steps.map((s, i) => (
         <ProcessStep
           step={s.step}

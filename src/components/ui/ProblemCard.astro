@@ -9,16 +9,16 @@ interface Props {
 
 const { title, description, icon: Icon } = Astro.props;
 ---
-<div data-stagger-item class="flex gap-4 rounded-xl border border-white/8 bg-white/[0.035] p-6 backdrop-blur transition-colors duration-300 hover:bg-white/[0.055]">
-  <div class="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-lg border border-accent/20 bg-accent/10">
+<div data-stagger-item data-card class="flex gap-4 border border-[#111111] bg-white p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-[8px_8px_0_#ff4f00]">
+  <div class="flex h-12 w-12 flex-shrink-0 items-center justify-center border border-[#111111] bg-accent">
     {Icon ? (
-      <Icon class="h-5 w-5 text-accent-light" stroke-width="1.8" />
+      <Icon class="h-5 w-5 text-[#111111]" stroke-width="1.8" />
     ) : (
-      <AlertCircle class="h-5 w-5 text-accent-light" stroke-width="1.8" />
+      <AlertCircle class="h-5 w-5 text-[#111111]" stroke-width="1.8" />
     )}
   </div>
   <div>
-    <h3 class="mb-2 text-base font-semibold text-white">{title}</h3>
-    <p class="text-sm leading-6 text-slate-300">{description}</p>
+    <h3 class="mb-2 text-lg font-bold text-[#111111]">{title}</h3>
+    <p class="text-sm leading-6 text-[#555555]">{description}</p>
   </div>
 </div>

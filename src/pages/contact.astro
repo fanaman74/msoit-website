@@ -10,47 +10,59 @@ const areas = [
   'Website',
   'General IT Review',
 ];
+
+const inputClass = 'mt-2 w-full border border-[#111111] bg-white px-4 py-3 text-[#111111] placeholder-[#777777] focus:border-accent focus:ring-2 focus:ring-accent/25 focus:outline-none';
+const labelClass = 'block text-sm font-bold text-[#111111]';
 ---
 
 <Layout title="Contact" description="Book a free 30-minute IT review to discuss your systems, security, automation and AI opportunities.">
-  <!-- Hero -->
-  <section class="bg-navy-900 py-20">
-    <div class="mx-auto max-w-4xl px-6 text-center">
-      <h1 class="text-4xl font-bold text-white sm:text-5xl">Book a Free IT Review</h1>
-      <p class="mt-4 text-lg text-slate-400 max-w-2xl mx-auto">Use the form below to request a free 30-minute review of your current IT systems, security concerns, manual processes, website or AI opportunities.</p>
+  <section class="section-shell bg-white py-20">
+    <div class="surface-line pointer-events-none absolute inset-0" aria-hidden="true"></div>
+    <div class="relative mx-auto max-w-7xl px-6" data-reveal>
+      <p class="mb-5 text-sm font-bold text-accent">Contact</p>
+      <h1 class="text-balance max-w-5xl text-6xl font-bold leading-[0.88] text-[#111111] sm:text-8xl">Book a free IT review.</h1>
+      <p class="mt-8 max-w-2xl text-lg leading-8 text-[#444444]">Use the form below to request a free 30-minute review of your current IT systems, security concerns, manual processes, website or AI opportunities.</p>
     </div>
   </section>
 
-  <!-- Form -->
-  <section class="bg-white py-20">
-    <div class="mx-auto max-w-2xl px-6">
-      <form id="contact-form" class="space-y-6">
-        <div id="form-status" class="hidden rounded-lg p-4 text-sm font-medium"></div>
+  <section class="section-shell bg-surface py-20">
+    <div class="relative mx-auto grid max-w-7xl gap-8 px-6 lg:grid-cols-[0.7fr_1fr]" data-reveal>
+      <aside class="border border-[#111111] bg-accent p-6">
+        <p class="text-sm font-bold text-[#111111]">What to expect</p>
+        <ul class="mt-10 space-y-4 text-lg font-bold leading-tight text-[#111111]">
+          <li>Discuss your current systems and risks.</li>
+          <li>Identify practical automation or AI opportunities.</li>
+          <li>Leave with clearer next steps.</li>
+        </ul>
+      </aside>
+
+      <form id="contact-form" class="border border-[#111111] bg-white p-6 lg:p-8">
+        <div id="form-status" class="mb-6 hidden border border-[#111111] p-4 text-sm font-bold"></div>
         <div class="grid gap-6 sm:grid-cols-2">
           <div>
-            <label for="name" class="block text-sm font-medium text-slate-700">Name <span class="text-red-500">*</span></label>
-            <input type="text" id="name" name="name" required class="mt-1 w-full rounded-lg border border-slate-300 px-4 py-3 text-slate-900 placeholder-slate-400 focus:border-accent focus:ring-2 focus:ring-accent/20 focus:outline-none" />
+            <label for="name" class={labelClass}>Name <span class="text-accent">*</span></label>
+            <input type="text" id="name" name="name" required class={inputClass} />
           </div>
           <div>
-            <label for="company" class="block text-sm font-medium text-slate-700">Company</label>
-            <input type="text" id="company" name="company" class="mt-1 w-full rounded-lg border border-slate-300 px-4 py-3 text-slate-900 placeholder-slate-400 focus:border-accent focus:ring-2 focus:ring-accent/20 focus:outline-none" />
+            <label for="company" class={labelClass}>Company</label>
+            <input type="text" id="company" name="company" class={inputClass} />
           </div>
         </div>
 
-        <div class="grid gap-6 sm:grid-cols-2">
+        <div class="mt-6 grid gap-6 sm:grid-cols-2">
           <div>
-            <label for="email" class="block text-sm font-medium text-slate-700">Email <span class="text-red-500">*</span></label>
-            <input type="email" id="email" name="email" required class="mt-1 w-full rounded-lg border border-slate-300 px-4 py-3 text-slate-900 placeholder-slate-400 focus:border-accent focus:ring-2 focus:ring-accent/20 focus:outline-none" />
+            <label for="email" class={labelClass}>Email <span class="text-accent">*</span></label>
+            <input type="email" id="email" name="email" required class={inputClass} />
           </div>
           <div>
-            <label for="phone" class="block text-sm font-medium text-slate-700">Phone</label>
-            <input type="tel" id="phone" name="phone" class="mt-1 w-full rounded-lg border border-slate-300 px-4 py-3 text-slate-900 placeholder-slate-400 focus:border-accent focus:ring-2 focus:ring-accent/20 focus:outline-none" />
+            <label for="phone" class={labelClass}>Phone</label>
+            <input type="tel" id="phone" name="phone" class={inputClass} />
           </div>
         </div>
 
-        <div>
-          <label for="area" class="block text-sm font-medium text-slate-700">Area of Interest</label>
-          <select id="area" name="area" class="mt-1 w-full rounded-lg border border-slate-300 px-4 py-3 text-slate-900 focus:border-accent focus:ring-2 focus:ring-accent/20 focus:outline-none bg-white">
+        <div class="mt-6">
+          <label for="area" class={labelClass}>Area of Interest</label>
+          <select id="area" name="area" class={inputClass}>
             <option value="">Select an area</option>
             {areas.map((a) => (
               <option value={a}>{a}</option>
@@ -58,15 +70,15 @@ const areas = [
           </select>
         </div>
 
-        <div>
-          <label for="message" class="block text-sm font-medium text-slate-700">Message</label>
-          <textarea id="message" name="message" rows={5} class="mt-1 w-full rounded-lg border border-slate-300 px-4 py-3 text-slate-900 placeholder-slate-400 focus:border-accent focus:ring-2 focus:ring-accent/20 focus:outline-none" placeholder="Tell me about your current systems, challenges or goals..."></textarea>
+        <div class="mt-6">
+          <label for="message" class={labelClass}>Message</label>
+          <textarea id="message" name="message" rows={5} class={inputClass} placeholder="Tell me about your current systems, challenges or goals..."></textarea>
         </div>
 
-        <button type="submit" id="submit-btn" class="w-full rounded-lg bg-accent px-8 py-4 text-lg font-semibold text-white transition-colors hover:bg-accent-light focus:ring-2 focus:ring-accent focus:ring-offset-2 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed">
+        <button type="submit" id="submit-btn" class="mt-6 w-full border border-[#111111] bg-accent px-8 py-4 text-lg font-bold text-[#111111] shadow-[6px_6px_0_#111111] transition-all hover:-translate-y-0.5 hover:shadow-[9px_9px_0_#111111] focus:ring-2 focus:ring-accent focus:ring-offset-2 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50">
           Book a free 30-minute IT review
         </button>
-        <p class="text-center text-sm text-slate-500">This is a practical discussion to understand where technology can help your business.</p>
+        <p class="mt-6 text-center text-sm text-[#555555]">This is a practical discussion to understand where technology can help your business.</p>
       </form>
 
       <script is:inline>
@@ -75,10 +87,11 @@ const areas = [
           const form = e.target;
           const btn = document.getElementById('submit-btn');
           const status = document.getElementById('form-status');
+          const translate = window.msoitTranslate || ((value) => value);
 
           btn.disabled = true;
-          btn.textContent = 'Sending...';
-          status.className = 'hidden';
+          btn.textContent = translate('Sending...');
+          status.className = 'mb-6 hidden border border-[#111111] p-4 text-sm font-bold';
 
           try {
             const formData = new FormData(form);
@@ -91,19 +104,19 @@ const areas = [
             const data = await res.json();
 
             if (data.success) {
-              status.className = 'rounded-lg p-4 text-sm font-medium bg-green-50 text-green-800 border border-green-200';
-              status.textContent = data.message;
+              status.className = 'mb-6 border border-[#111111] bg-green-50 p-4 text-sm font-bold text-green-800';
+              status.textContent = translate(data.message);
               form.reset();
             } else {
-              status.className = 'rounded-lg p-4 text-sm font-medium bg-red-50 text-red-800 border border-red-200';
-              status.textContent = data.error || 'Something went wrong.';
+              status.className = 'mb-6 border border-[#111111] bg-red-50 p-4 text-sm font-bold text-red-800';
+              status.textContent = translate(data.error || 'Something went wrong.');
             }
           } catch (err) {
-            status.className = 'rounded-lg p-4 text-sm font-medium bg-red-50 text-red-800 border border-red-200';
-            status.textContent = 'Network error. Please try again or email directly.';
+            status.className = 'mb-6 border border-[#111111] bg-red-50 p-4 text-sm font-bold text-red-800';
+            status.textContent = translate('Network error. Please try again or email directly.');
           } finally {
             btn.disabled = false;
-            btn.textContent = 'Book a free 30-minute IT review';
+            btn.textContent = translate('Book a free 30-minute IT review');
             status.scrollIntoView({ behavior: 'smooth', block: 'center' });
           }
         });

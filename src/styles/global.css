@@ -1,19 +1,19 @@
 @import "tailwindcss";
 
 @theme {
-  --color-navy-950: #05070d;
-  --color-navy-900: #080b14;
-  --color-navy-850: #0d111d;
-  --color-navy-800: #111827;
-  --color-navy-700: #1b2436;
-  --color-navy-600: #2b3650;
-  --color-accent: #5e6ad2;
-  --color-accent-light: #828fff;
-  --color-accent-dark: #4650b8;
-  --color-success: #10B981;
-  --color-surface: #f6f8fb;
-  --color-surface-alt: #eef3f8;
-  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --color-navy-950: #111111;
+  --color-navy-900: #181818;
+  --color-navy-850: #202020;
+  --color-navy-800: #2a2a2a;
+  --color-navy-700: #3a3a3a;
+  --color-navy-600: #4a4a4a;
+  --color-accent: #ff4f00;
+  --color-accent-light: #ff6b2a;
+  --color-accent-dark: #cc3f00;
+  --color-success: #ff4f00;
+  --color-surface: #f7f7f8;
+  --color-surface-alt: #ededee;
+  --font-sans: "Helvetica Neue", Helvetica, Arial, system-ui, -apple-system, sans-serif;
 }
 
 html {
@@ -22,34 +22,131 @@ html {
 
 body {
   font-family: var(--font-sans);
-  color: #1e293b;
-  background: #f6f8fb;
+  color: #111111;
+  background: #ffffff;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-feature-settings: "cv01", "ss03";
 }
 
 ::selection {
-  background: rgba(94, 106, 210, 0.25);
-  color: #f7f8f8;
+  background: #ff4f00;
+  color: #ffffff;
 }
 
 .surface-line {
   background-image:
-    linear-gradient(rgba(255,255,255,.05) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,.05) 1px, transparent 1px);
-  background-size: 56px 56px;
-  mask-image: radial-gradient(circle at 40% 10%, black, transparent 68%);
+    linear-gradient(rgba(17,17,17,.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(17,17,17,.07) 1px, transparent 1px);
+  background-size: 72px 72px;
 }
 
 .premium-shadow {
-  box-shadow: rgba(50, 50, 93, 0.18) 0px 30px 45px -30px,
-    rgba(0, 0, 0, 0.12) 0px 18px 36px -18px;
+  box-shadow: 12px 12px 0 #111111;
 }
 
 .motion-ready [data-reveal],
-.motion-ready [data-stagger-item] {
+.motion-ready [data-stagger-item],
+.motion-ready [data-card],
+.motion-ready [data-panel] {
   will-change: transform, opacity, filter;
+}
+
+.section-shell {
+  position: relative;
+  overflow: hidden;
+  border-top: 1px solid #111111;
+}
+
+.section-shell::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgba(17,17,17,.055) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(17,17,17,.055) 1px, transparent 1px);
+  background-size: 72px 72px;
+  mask-image: linear-gradient(to bottom, black, transparent 86%);
+}
+
+.accent-bar {
+  background: #ff4f00;
+  color: #111111;
+}
+
+.text-balance {
+  text-wrap: balance;
+}
+
+.marquee {
+  overflow: hidden;
+  border-block: 1px solid #111111;
+  background: #ff4f00;
+}
+
+.marquee__track {
+  display: flex;
+  width: max-content;
+  animation: marquee 22s linear infinite;
+}
+
+.marquee__item {
+  display: inline-flex;
+  align-items: center;
+  gap: 1.25rem;
+  padding: 1rem 1.25rem;
+  font-size: clamp(1.1rem, 2vw, 1.75rem);
+  font-weight: 700;
+  letter-spacing: 0;
+  white-space: nowrap;
+  color: #111111;
+}
+
+.marquee__item::after {
+  content: "";
+  width: .55rem;
+  height: .55rem;
+  background: #111111;
+  display: inline-block;
+}
+
+.shape-ring {
+  border: 1px solid #111111;
+  border-radius: 999px;
+  animation: ring-drift 8s ease-in-out infinite alternate;
+}
+
+.shape-square {
+  border: 1px solid #111111;
+  background: #ff4f00;
+  animation: square-spin 12s linear infinite;
+}
+
+[data-lang-toggle][aria-pressed="true"] {
+  background: #111111;
+  color: #ffffff;
+}
+
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes ring-drift {
+  from {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+  to {
+    transform: translate3d(18px, -22px, 0) rotate(8deg);
+  }
+}
+
+@keyframes square-spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -72,7 +169,7 @@ body {
   z-index: 100;
   padding: 0.75rem 1.5rem;
   background: var(--color-accent);
-  color: white;
+  color: #111111;
   font-weight: 600;
   text-decoration: none;
 }

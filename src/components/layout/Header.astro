@@ -8,35 +8,35 @@ const navItems = [
   { label: 'About', href: '/about' },
   { label: 'Contact', href: '/contact' },
 ];
+
+const languages = ['en', 'fr', 'nl'];
 ---
-<header class="sticky top-0 z-50 border-b border-white/8 bg-navy-950/82 backdrop-blur-xl">
+<header class="sticky top-0 z-50 border-b border-[#111111] bg-white/90 backdrop-blur-xl">
   <div class="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
-    <!-- Logo -->
-    <a href="/" class="flex items-center gap-2 text-white">
+    <a href="/" class="flex items-center gap-3 text-[#111111]">
       <svg
-        class="h-8 w-8 text-accent"
+        class="h-8 w-8 text-[#111111]"
         viewBox="0 0 32 32"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
         aria-hidden="true"
       >
-        <rect x="2" y="2" width="28" height="28" rx="6" stroke="currentColor" stroke-width="2" />
+        <rect x="2" y="2" width="28" height="28" stroke="currentColor" stroke-width="2" />
         <path d="M9 22V10l4 6 4-6v12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-        <circle cx="24" cy="12" r="2" fill="currentColor" />
+        <rect x="22" y="10" width="4" height="4" fill="#ff4f00" />
       </svg>
-      <span class="text-lg font-semibold tracking-[-0.03em]">MSOIT</span>
+      <span class="text-lg font-bold">MSOIT</span>
     </a>
 
-    <!-- Desktop Nav -->
     <nav class="hidden items-center gap-8 md:flex" aria-label="Main navigation">
       {navItems.map((item) => (
         <a
           href={item.href}
           class:list={[
-            'text-sm font-medium text-slate-400 transition-colors hover:text-white',
+            'text-sm font-bold text-[#444444] transition-colors hover:text-accent-dark',
             currentPath === item.href || (item.href !== '/' && currentPath.startsWith(item.href))
-              ? 'text-accent-light'
-              : 'text-slate-300',
+              ? 'text-accent-dark'
+              : 'text-[#444444]',
           ]}
         >
           {item.label}
@@ -44,16 +44,27 @@ const navItems = [
       ))}
       <a
         href="/contact"
-        class="rounded-md bg-accent px-4 py-2 text-sm font-medium text-white transition-all hover:-translate-y-0.5 hover:bg-accent-light"
+        class="border border-[#111111] bg-accent px-4 py-2 text-sm font-bold text-[#111111] shadow-[4px_4px_0_#111111] transition-all hover:-translate-y-0.5 hover:shadow-[6px_6px_0_#111111]"
       >
         Book a Review
       </a>
+      <div class="flex border border-[#111111]" aria-label="Language selector">
+        {languages.map((lang) => (
+          <button
+            type="button"
+            data-lang-toggle={lang}
+            class="px-2.5 py-2 text-xs font-bold uppercase text-[#111111] transition-colors hover:bg-surface"
+            aria-pressed={lang === 'en' ? 'true' : 'false'}
+          >
+            {lang}
+          </button>
+        ))}
+      </div>
     </nav>
 
-    <!-- Mobile Menu Button -->
     <button
       id="mobile-menu-btn"
-      class="flex items-center justify-center rounded-lg p-2 text-slate-300 hover:text-white md:hidden"
+      class="flex items-center justify-center border border-[#111111] p-2 text-[#111111] hover:bg-surface md:hidden"
       aria-label="Toggle navigation menu"
       aria-expanded="false"
     >
@@ -67,7 +78,7 @@ const navItems = [
   <!-- Mobile Nav -->
   <nav
     id="mobile-menu"
-    class="hidden border-t border-navy-700 bg-navy-800 px-6 pb-6 pt-4 md:hidden"
+    class="hidden border-t border-[#111111] bg-white px-6 pb-6 pt-4 md:hidden"
     aria-label="Mobile navigation"
   >
     <div class="flex flex-col gap-4">
@@ -75,8 +86,8 @@ const navItems = [
         <a
           href={item.href}
           class:list={[
-            'text-base font-medium transition-colors',
-            currentPath === item.href ? 'text-accent-light' : 'text-slate-300 hover:text-white',
+            'text-base font-bold transition-colors',
+            currentPath === item.href ? 'text-accent-dark' : 'text-[#444444] hover:text-accent-dark',
           ]}
         >
           {item.label}
@@ -84,10 +95,22 @@ const navItems = [
       ))}
       <a
         href="/contact"
-        class="mt-2 rounded-lg bg-accent px-4 py-3 text-center text-sm font-semibold text-white transition-colors hover:bg-accent-light"
+        class="mt-2 border border-[#111111] bg-accent px-4 py-3 text-center text-sm font-bold text-[#111111] transition-colors hover:bg-accent-light"
       >
         Book a Free IT Review
       </a>
+      <div class="mt-2 grid grid-cols-3 border border-[#111111]" aria-label="Language selector">
+        {languages.map((lang) => (
+          <button
+            type="button"
+            data-lang-toggle={lang}
+            class="px-3 py-3 text-sm font-bold uppercase text-[#111111] transition-colors hover:bg-surface"
+            aria-pressed={lang === 'en' ? 'true' : 'false'}
+          >
+            {lang}
+          </button>
+        ))}
+      </div>
     </div>
   </nav>
 </header>

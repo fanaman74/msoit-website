@@ -21,14 +21,6 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     <meta name="robots" content="index, follow" />
     <link rel="canonical" href={canonicalURL} />
 
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
-      rel="stylesheet"
-    />
-
     <!-- Primary Meta Tags -->
     <title>{title} | MSOIT — Making Sense of IT</title>
     <meta name="title" content={`${title} | MSOIT — Making Sense of IT`} />
@@ -71,7 +63,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
       }
     })} />
   </head>
-  <body class="flex min-h-screen flex-col">
+  <body class="flex min-h-screen flex-col bg-white">
     <a href="#main" class="skip-link">Skip to content</a>
     <SiteMotion client:load />
     <Header />
@@ -79,5 +71,6 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
       <slot />
     </main>
     <Footer />
+    <script src="/i18n.js" defer></script>
   </body>
 </html>
