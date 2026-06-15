@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" fill="none">
+  <!-- Background circle -->
+  <circle cx="100" cy="100" r="96" fill="#0A1628"/>
+  <!-- Shield shape -->
+  <path d="M100 30 L150 55 L150 105 C150 140 130 165 100 175 C70 165 50 140 50 105 L50 55 Z"
+        fill="none" stroke="#2563EB" stroke-width="3" stroke-linejoin="round"/>
+  <!-- Circuit/flow lines inside shield -->
+  <path d="M80 80 L80 100 L100 100 L100 120 L120 120"
+        fill="none" stroke="#2563EB" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M80 120 L100 120 L100 100 L120 100 L120 80"
+        fill="none" stroke="#3B82F6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" opacity="0.5"/>
+  <!-- Dots at connection points -->
+  <circle cx="80" cy="80" r="4" fill="#2563EB"/>
+  <circle cx="120" cy="120" r="4" fill="#2563EB"/>
+  <circle cx="100" cy="100" r="5" fill="#FFFFFF"/>
+  <circle cx="120" cy="80" r="3" fill="#3B82F6" opacity="0.5"/>
+  <circle cx="80" cy="120" r="3" fill="#3B82F6" opacity="0.5"/>
+  <!-- Check mark at bottom of shield -->
+  <path d="M88 145 L96 153 L113 138"
+        fill="none" stroke="#10B981" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

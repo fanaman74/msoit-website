@@ -24,8 +24,8 @@ const areas = [
   <!-- Form -->
   <section class="bg-white py-20">
     <div class="mx-auto max-w-2xl px-6">
-      <!-- TODO: Configure form endpoint (Formspree, Web3Forms, etc.) -->
-      <form action="#" method="POST" class="space-y-6">
+      <form id="contact-form" class="space-y-6">
+        <div id="form-status" class="hidden rounded-lg p-4 text-sm font-medium"></div>
         <div class="grid gap-6 sm:grid-cols-2">
           <div>
             <label for="name" class="block text-sm font-medium text-slate-700">Name <span class="text-red-500">*</span></label>
@@ -63,11 +63,46 @@ const areas = [
           <textarea id="message" name="message" rows={5} class="mt-1 w-full rounded-lg border border-slate-300 px-4 py-3 text-slate-900 placeholder-slate-400 focus:border-accent focus:ring-2 focus:ring-accent/20 focus:outline-none" placeholder="Tell me about your current systems, challenges or goals..."></textarea>
         </div>
 
-        <button type="submit" class="w-full rounded-lg bg-accent px-8 py-4 text-lg font-semibold text-white transition-colors hover:bg-accent-light focus:ring-2 focus:ring-accent focus:ring-offset-2 focus:outline-none">
+        <button type="submit" id="submit-btn" class="w-full rounded-lg bg-accent px-8 py-4 text-lg font-semibold text-white transition-colors hover:bg-accent-light focus:ring-2 focus:ring-accent focus:ring-offset-2 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed">
           Book a free 30-minute IT review
         </button>
         <p class="text-center text-sm text-slate-500">This is a practical discussion to understand where technology can help your business.</p>
       </form>
+
+      <script is:inline>
+        document.getElementById('contact-form').addEventListener('submit', async (e) => {
+          e.preventDefault();
+          const form = e.target;
+          const btn = document.getElementById('submit-btn');
+          const status = document.getElementById('form-status');
+
+          btn.disabled = true;
+          btn.textContent = 'Sending...';
+          status.className = 'hidden';
+
+          try {
+            const formData = new FormData(form);
+            const res = await fetch('/api/contact', { method: 'POST', body: formData });
+            const data = await res.json();
+
+            if (data.success) {
+              status.className = 'rounded-lg p-4 text-sm font-medium bg-green-50 text-green-800 border border-green-200';
+              status.textContent = data.message;
+              form.reset();
+            } else {
+              status.className = 'rounded-lg p-4 text-sm font-medium bg-red-50 text-red-800 border border-red-200';
+              status.textContent = data.error || 'Something went wrong.';
+            }
+          } catch (err) {
+            status.className = 'rounded-lg p-4 text-sm font-medium bg-red-50 text-red-800 border border-red-200';
+            status.textContent = 'Network error. Please try again or email directly.';
+          } finally {
+            btn.disabled = false;
+            btn.textContent = 'Book a free 30-minute IT review';
+            status.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          }
+        });
+      </script>
     </div>
   </section>
 </Layout>
