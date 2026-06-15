@@ -95,6 +95,57 @@ if (isAuthed) {
     .status-select[data-status="contacted"] { background: #fefce8; border-color: #fde047; color: #854d0e; }
     .status-select[data-status="closed"]    { background: #f0fdf4; border-color: #86efac; color: #166534; }
     .status-select.saving { opacity: 0.5; }
+
+    /* Reply button */
+    .reply-btn {
+      font-size: 0.72rem; font-weight: 600; font-family: inherit;
+      background: #fff; border: 1px solid #111; padding: 0.25rem 0.6rem;
+      cursor: pointer; white-space: nowrap; transition: background 0.15s;
+    }
+    .reply-btn:hover { background: #f97316; color: #fff; border-color: #f97316; }
+
+    /* Reply modal */
+    .modal-overlay {
+      display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5);
+      z-index: 100; align-items: center; justify-content: center; padding: 1rem;
+    }
+    .modal-overlay.open { display: flex; }
+    .modal {
+      background: #fff; border: 1px solid #111; width: 100%; max-width: 560px;
+      max-height: 90vh; overflow-y: auto;
+    }
+    .modal-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1rem 1.25rem; border-bottom: 1px solid #111; background: #111; color: #fff;
+    }
+    .modal-header h2 { font-size: 0.9rem; font-weight: 700; }
+    .modal-close {
+      background: none; border: none; color: #fff; font-size: 1.2rem;
+      cursor: pointer; line-height: 1; padding: 0;
+    }
+    .modal-body { padding: 1.25rem; }
+    .modal-field { margin-bottom: 1rem; }
+    .modal-field label { display: block; font-size: 0.72rem; font-weight: 700; margin-bottom: 0.3rem; text-transform: uppercase; letter-spacing: .04em; }
+    .modal-field input, .modal-field textarea {
+      width: 100%; border: 1px solid #ccc; padding: 0.55rem 0.75rem;
+      font-size: 0.85rem; font-family: inherit; outline: none;
+    }
+    .modal-field input:focus, .modal-field textarea:focus { border-color: #f97316; outline: 2px solid #f97316; outline-offset: -2px; }
+    .modal-field textarea { resize: vertical; min-height: 160px; }
+    .modal-footer { display: flex; gap: 0.75rem; justify-content: flex-end; padding: 1rem 1.25rem; border-top: 1px solid #eee; }
+    .btn-send {
+      background: #111; color: #fff; border: none; padding: 0.6rem 1.25rem;
+      font-size: 0.85rem; font-weight: 700; cursor: pointer; font-family: inherit;
+    }
+    .btn-send:hover { background: #f97316; }
+    .btn-send:disabled { opacity: 0.5; cursor: not-allowed; }
+    .btn-cancel {
+      background: #fff; color: #111; border: 1px solid #ccc; padding: 0.6rem 1.25rem;
+      font-size: 0.85rem; font-weight: 600; cursor: pointer; font-family: inherit;
+    }
+    .send-status { font-size: 0.8rem; font-weight: 600; padding: 0.5rem 0; }
+    .send-status.ok { color: #166534; }
+    .send-status.err { color: #dc2626; }
   </style>
 </head>
 <body>
@@ -129,6 +180,7 @@ if (isAuthed) {
           <thead>
             <tr>
               <th>Status</th>
+              <th>Reply</th>
               <th>Date</th>
               <th>Name</th>
               <th>Company</th>
@@ -153,6 +205,14 @@ if (isAuthed) {
                     <option value="contacted" selected={(lead.status as string) === 'contacted'}>Contacted</option>
                     <option value="closed"    selected={(lead.status as string) === 'closed'}>Closed</option>
                   </select>
+                </td>
+                <td>
+                  <button
+                    class="reply-btn"
+                    data-email={lead.email as string}
+                    data-name={lead.name as string}
+                    data-area={lead.area as string || ''}
+                  >Reply</button>
                 </td>
                 <td class="date">
                   {new Date(lead.submitted_at as string).toLocaleDateString('en-GB', {
@@ -179,7 +239,37 @@ if (isAuthed) {
   </div>
 )}
 
+<!-- Reply modal -->
+<div class="modal-overlay" id="reply-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+  <div class="modal">
+    <div class="modal-header">
+      <h2 id="modal-title">Reply to Lead</h2>
+      <button class="modal-close" id="modal-close-btn" aria-label="Close">&times;</button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-field">
+        <label>To</label>
+        <input type="email" id="reply-to" readonly style="background:#f5f5f5;color:#555;" />
+      </div>
+      <div class="modal-field">
+        <label>Subject</label>
+        <input type="text" id="reply-subject" />
+      </div>
+      <div class="modal-field">
+        <label>Message</label>
+        <textarea id="reply-message" placeholder="Write your reply..."></textarea>
+      </div>
+      <div class="send-status" id="send-status" style="display:none;"></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-cancel" id="modal-cancel-btn">Cancel</button>
+      <button class="btn-send" id="modal-send-btn">Send Reply</button>
+    </div>
+  </div>
+</div>
+
 <script>
+  // Status dropdowns
   document.querySelectorAll<HTMLSelectElement>('.status-select').forEach((sel) => {
     sel.addEventListener('change', async () => {
       const id = sel.dataset.id!;
@@ -204,6 +294,73 @@ if (isAuthed) {
         sel.disabled = false;
       }
     });
+  });
+
+  // Reply modal
+  var modal = document.getElementById('reply-modal');
+  var toInput = document.getElementById('reply-to') as HTMLInputElement;
+  var subjectInput = document.getElementById('reply-subject') as HTMLInputElement;
+  var messageInput = document.getElementById('reply-message') as HTMLTextAreaElement;
+  var sendBtn = document.getElementById('modal-send-btn') as HTMLButtonElement;
+  var statusEl = document.getElementById('send-status');
+  var replyName = '';
+
+  function openModal(email: string, name: string, area: string) {
+    replyName = name;
+    toInput.value = email;
+    subjectInput.value = 'Re: Your request' + (area ? ' — ' + area : '') + ' | MSOIT';
+    messageInput.value = '';
+    if (statusEl) { statusEl.style.display = 'none'; statusEl.textContent = ''; }
+    sendBtn.disabled = false;
+    modal!.classList.add('open');
+    messageInput.focus();
+  }
+
+  function closeModal() {
+    modal!.classList.remove('open');
+  }
+
+  document.querySelectorAll<HTMLButtonElement>('.reply-btn').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      openModal(btn.dataset.email || '', btn.dataset.name || '', btn.dataset.area || '');
+    });
+  });
+
+  document.getElementById('modal-close-btn')!.addEventListener('click', closeModal);
+  document.getElementById('modal-cancel-btn')!.addEventListener('click', closeModal);
+  modal!.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
+
+  sendBtn.addEventListener('click', async () => {
+    var subject = subjectInput.value.trim();
+    var message = messageInput.value.trim();
+    if (!subject || !message) { alert('Subject and message are required.'); return; }
+
+    sendBtn.disabled = true;
+    sendBtn.textContent = 'Sending...';
+    if (statusEl) statusEl.style.display = 'none';
+
+    try {
+      var res = await fetch('/api/admin-reply', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ to: toInput.value, name: replyName, subject, message }),
+      });
+      if (res.ok) {
+        if (statusEl) { statusEl.textContent = '✓ Reply sent successfully.'; statusEl.className = 'send-status ok'; statusEl.style.display = 'block'; }
+        sendBtn.textContent = 'Sent';
+        setTimeout(closeModal, 1800);
+      } else {
+        var err = await res.json().catch(() => ({ error: 'Unknown error' }));
+        if (statusEl) { statusEl.textContent = '✗ ' + (err.error || 'Failed to send.'); statusEl.className = 'send-status err'; statusEl.style.display = 'block'; }
+        sendBtn.disabled = false;
+        sendBtn.textContent = 'Send Reply';
+      }
+    } catch {
+      if (statusEl) { statusEl.textContent = '✗ Network error. Try again.'; statusEl.className = 'send-status err'; statusEl.style.display = 'block'; }
+      sendBtn.disabled = false;
+      sendBtn.textContent = 'Send Reply';
+    }
   });
 </script>
 </body>
