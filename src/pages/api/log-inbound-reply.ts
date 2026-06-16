@@ -59,7 +59,7 @@ export const POST: APIRoute = async ({ request }) => {
   // 2. Fall back to matching by sender email address
   if (!leadId) {
     const leadRes = await fetch(
-      `${base}/rest/v1/lead_submissions?email=eq.${encodeURIComponent(fromEmail)}&order=submitted_at.desc&limit=1&select=id`,
+      `${base}/rest/v1/lead_submissions?email=ilike.${encodeURIComponent(fromEmail)}&order=submitted_at.desc&limit=1&select=id`,
       { headers }
     );
     if (leadRes.ok) {
