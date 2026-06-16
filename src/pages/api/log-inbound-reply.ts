@@ -18,7 +18,9 @@ export const POST: APIRoute = async ({ request }) => {
   const rawFrom   = (body.from_email  || '').trim();
   const inReplyTo = (body.in_reply_to || '').trim();
   const subject   = (body.subject     || '(no subject)').trim();
-  const message   = (body.body        || '').trim();
+  // Strip quoted reply chain — everything from "On ... wrote:" onwards
+  const rawBody = (body.body || '').trim();
+  const message = rawBody.replace(/\r\n/g, '\n').split(/\n(?=On .+wrote:)/)[0].trim();
 
   // Extract plain email from "Name <email>" format
   const emailMatch = rawFrom.match(/<([^>]+)>/) || rawFrom.match(/([^\s]+@[^\s]+)/);
