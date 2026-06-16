@@ -4,56 +4,81 @@ import Button from '../ui/Button.astro';
 const beltItems = ['Microsoft 365', 'Cybersecurity', 'Automation', 'AI systems', 'Websites', 'Governance'];
 ---
 <section class="relative isolate overflow-hidden bg-white">
-  <div class="surface-line pointer-events-none absolute inset-0" aria-hidden="true"></div>
+  <!-- Orange grid lines -->
+  <div class="pointer-events-none absolute inset-0" aria-hidden="true" style="background-image: linear-gradient(rgba(255,79,0,.13) 1px, transparent 1px), linear-gradient(90deg, rgba(255,79,0,.13) 1px, transparent 1px); background-size: 72px 72px;"></div>
 
-  <!-- Mouse-following orange tracer along grid lines -->
+  <!-- 3 animated tracers, each from a different border -->
   <svg id="hero-tracer-svg" class="pointer-events-none absolute inset-0 h-full w-full" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
-    <path id="hero-mouse-tracer" d="M 0 144 H 360 V 216 H 720"
-      fill="none" stroke="#f97316" stroke-width="1.5"
-      stroke-linecap="round" stroke-linejoin="round" opacity="0.55"/>
+    <path id="hero-tracer-0" fill="none" stroke="#ff4f00" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.6"/>
+    <path id="hero-tracer-1" fill="none" stroke="#ff4f00" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.6"/>
+    <path id="hero-tracer-2" fill="none" stroke="#ff4f00" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.6"/>
   </svg>
 
   <script>
     (function () {
       var GRID = 72;
       var section = document.querySelector('section.relative.isolate');
-      var tracer = document.getElementById('hero-mouse-tracer');
-      if (!section || !tracer) return;
+      var t0 = document.getElementById('hero-tracer-0');
+      var t1 = document.getElementById('hero-tracer-1');
+      var t2 = document.getElementById('hero-tracer-2');
+      if (!section || !t0 || !t1 || !t2) return;
 
-      var offset = 0;
-      var mouseX = 360, mouseY = 216;
+      var tracers = [t0, t1, t2];
+      var offsets = [0, 0, 0];
+      var speeds  = [1.0, 0.7, 0.5];
+      var dashes  = ['90 ', '70 ', '55 '];
 
       function snap(v) { return Math.round(v / GRID) * GRID; }
 
-      function buildPath(tx, ty) {
-        var sx = 0, sy = GRID * 2;
-        var mx = Math.max(GRID, snap(tx));
-        var my = Math.max(GRID, snap(ty));
-        var ex = snap(mx * 0.4 + GRID);
-        var ey = snap(sy + (my - sy) * 0.5);
-        return 'M ' + sx + ' ' + sy + ' H ' + ex + ' V ' + ey + ' H ' + mx + ' V ' + my;
+      function setPaths() {
+        var w = snap(section.offsetWidth);
+        var h = snap(section.offsetHeight);
+
+        // Tracer 0: starts LEFT border, winds right and down
+        t0.setAttribute('d',
+          'M 0 '+snap(h*0.2)+
+          ' H '+snap(w*0.15)+' V '+snap(h*0.45)+
+          ' H '+snap(w*0.32)+' V '+snap(h*0.22)+
+          ' H '+snap(w*0.52)+' V '+snap(h*0.58)+
+          ' H '+snap(w*0.70)+' V '+snap(h*0.35)+
+          ' H '+snap(w*0.88)+' V '+snap(h*0.62)
+        );
+
+        // Tracer 1: starts TOP border, winds down and across
+        t1.setAttribute('d',
+          'M '+snap(w*0.22)+' 0'+
+          ' V '+snap(h*0.28)+' H '+snap(w*0.08)+
+          ' V '+snap(h*0.52)+' H '+snap(w*0.30)+
+          ' V '+snap(h*0.30)+' H '+snap(w*0.52)+
+          ' V '+snap(h*0.65)+' H '+snap(w*0.72)+
+          ' V '+snap(h*0.42)+' H '+snap(w*0.90)
+        );
+
+        // Tracer 2: starts RIGHT border, winds left and down
+        t2.setAttribute('d',
+          'M '+w+' '+snap(h*0.30)+
+          ' H '+snap(w*0.82)+' V '+snap(h*0.55)+
+          ' H '+snap(w*0.62)+' V '+snap(h*0.28)+
+          ' H '+snap(w*0.42)+' V '+snap(h*0.60)+
+          ' H '+snap(w*0.22)+' V '+snap(h*0.38)+
+          ' H '+snap(w*0.05)+' V '+snap(h*0.70)
+        );
       }
+
+      setPaths();
+      window.addEventListener('resize', setPaths);
 
       function tick() {
-        var len = tracer.getTotalLength();
-        if (len > 0) {
-          offset = (offset + 2.5) % len;
-          tracer.style.strokeDasharray = '55 ' + (len + 55);
-          tracer.style.strokeDashoffset = String(-offset);
-        }
+        tracers.forEach(function (tr, i) {
+          var len = tr.getTotalLength();
+          if (len > 0) {
+            offsets[i] = (offsets[i] + speeds[i]) % len;
+            tr.style.strokeDasharray  = dashes[i] + (len + 120);
+            tr.style.strokeDashoffset = String(-offsets[i]);
+          }
+        });
         requestAnimationFrame(tick);
       }
-
-      section.addEventListener('mousemove', function (e) {
-        var rect = section.getBoundingClientRect();
-        mouseX = e.clientX - rect.left;
-        mouseY = e.clientY - rect.top;
-        tracer.setAttribute('d', buildPath(mouseX, mouseY));
-      });
-
-      section.addEventListener('mouseleave', function () {
-        tracer.setAttribute('d', 'M 0 144 H 360 V 216 H 720 V 288 H 504 V 360 H 864');
-      });
 
       tick();
     })();

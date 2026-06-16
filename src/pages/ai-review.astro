@@ -4,26 +4,26 @@ import CTASection from '../components/sections/CTASection.astro';
 import Button from '../components/ui/Button.astro';
 
 const topics = [
-  'Current business processes',
-  'Repetitive manual work',
-  'Document and email-heavy workflows',
-  'Internal knowledge management',
-  'Customer support opportunities',
-  'Microsoft Copilot readiness',
-  'Data privacy and security considerations',
-  'AI governance and acceptable use',
-  'Tool selection and implementation options',
-  'Prioritised roadmap',
+  { title: 'Current business processes', desc: 'We map how your team actually works today to spot where AI could reduce friction or eliminate manual steps.' },
+  { title: 'Repetitive manual work', desc: 'Data entry, copy-pasting, chasing approvals — we identify the tasks that drain time and can be automated.' },
+  { title: 'Document & email-heavy workflows', desc: 'Contracts, reports, inboxes — we assess where AI can help you find, summarise and act on information faster.' },
+  { title: 'Internal knowledge management', desc: 'How does your team find answers? We look at whether AI search or knowledge tools could reduce wasted effort.' },
+  { title: 'Customer support opportunities', desc: 'From FAQ automation to smarter triaging, we explore where AI can improve response times without losing quality.' },
+  { title: 'Microsoft Copilot readiness', desc: 'We assess whether your Microsoft 365 environment is ready to get real value from Copilot — or what needs to change first.' },
+  { title: 'Data privacy & security', desc: 'We flag where AI introduces data risks, GDPR concerns or governance gaps before you commit to any tool.' },
+  { title: 'AI governance & acceptable use', desc: 'We help you define clear internal rules for how AI should and should not be used in your business.' },
+  { title: 'Tool selection & implementation', desc: 'We recommend specific tools matched to your situation, with an honest view of cost, complexity and vendor lock-in.' },
+  { title: 'Prioritised roadmap', desc: 'Everything is ranked so you know what to tackle first for the fastest, safest return on effort.' },
 ];
 
 const deliverables = [
-  'AI opportunity summary',
-  'Prioritised use-case list',
-  'Quick wins identified',
-  'Risk and privacy considerations',
-  'Recommended tools or platforms',
-  'Practical AI roadmap',
-  'Suggested next steps',
+  { title: 'AI opportunity summary', desc: 'A plain-language overview of where AI can realistically add value in your business.' },
+  { title: 'Prioritised use-case list', desc: 'Your top AI opportunities ranked by impact and ease of implementation.' },
+  { title: 'Quick wins identified', desc: 'Specific tasks or processes you can automate or improve within weeks, not months.' },
+  { title: 'Risk & privacy considerations', desc: 'An honest look at data risks, GDPR implications, and what to watch out for.' },
+  { title: 'Recommended tools or platforms', desc: 'Concrete suggestions — Microsoft Copilot, custom GPTs, or other tools — matched to your context.' },
+  { title: 'Practical AI roadmap', desc: 'A phased plan so you know what to do first, second, and later.' },
+  { title: 'Suggested next steps', desc: 'Clear actions you can take immediately, with or without further help from us.' },
 ];
 ---
 
@@ -54,11 +54,14 @@ const deliverables = [
   <section class="section-shell bg-white py-20">
     <div class="relative mx-auto max-w-5xl px-6" data-reveal>
       <h2 class="text-balance text-center text-5xl font-bold leading-[0.95] text-[#111111]">What the Review Covers</h2>
-      <div class="mt-10 grid gap-4 sm:grid-cols-2" data-stagger>
+      <div class="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3" data-stagger>
         {topics.map((t) => (
-          <div data-stagger-item class="flex items-start gap-3 border border-[#111111] bg-surface p-4">
-            <svg class="mt-0.5 h-5 w-5 flex-shrink-0 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
-            <span class="text-sm text-[#444444]">{t}</span>
+          <div data-stagger-item class="group flex flex-col border border-[#111111] bg-surface p-6 transition-colors hover:bg-white">
+            <div class="mb-4 flex h-8 w-8 items-center justify-center bg-accent transition-colors group-hover:bg-[#111111]">
+              <svg class="h-4 w-4 text-[#111111] transition-colors group-hover:text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+            </div>
+            <h3 class="text-sm font-bold text-[#111111]">{t.title}</h3>
+            <p class="mt-2 text-sm leading-relaxed text-[#555555]">{t.desc}</p>
           </div>
         ))}
       </div>
@@ -66,16 +69,19 @@ const deliverables = [
   </section>
 
   <section class="section-shell bg-[#111111] py-20">
-    <div class="relative mx-auto max-w-4xl px-6" data-reveal>
-      <h2 class="text-center text-5xl font-bold leading-[0.95] text-white">What You Receive</h2>
-      <ul class="mt-10 space-y-4" data-stagger>
+    <div class="relative mx-auto max-w-6xl px-6">
+      <h2 class="text-center text-5xl font-bold leading-[0.95] text-white" data-reveal>What You Receive</h2>
+      <div class="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3" data-stagger>
         {deliverables.map((d) => (
-          <li data-stagger-item class="flex items-center gap-3 border border-white bg-white p-4 text-[#111111]">
-            <svg class="h-5 w-5 flex-shrink-0 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
-            <span class="text-lg">{d}</span>
-          </li>
+          <div data-stagger-item class="group flex flex-col border border-white/20 bg-white/5 p-6 transition-colors hover:bg-white/10">
+            <div class="mb-4 flex h-8 w-8 items-center justify-center bg-accent transition-colors group-hover:bg-black">
+              <svg class="h-4 w-4 text-[#111111] transition-colors group-hover:text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+            </div>
+            <h3 class="text-base font-bold text-white">{d.title}</h3>
+            <p class="mt-2 text-sm leading-relaxed text-white/60">{d.desc}</p>
+          </div>
         ))}
-      </ul>
+      </div>
     </div>
   </section>
 

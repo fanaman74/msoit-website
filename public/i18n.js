@@ -523,6 +523,32 @@
   };
 
   Object.assign(dictionaries.fr, {
+
+    // ai-review — topics card descriptions
+    'We map how your team actually works today to spot where AI could reduce friction or eliminate manual steps.': 'Nous cartographions le fonctionnement reel de votre equipe pour identifier ou l IA peut reduire les frictions ou eliminer les etapes manuelles.',
+    'Data entry, copy-pasting, chasing approvals — we identify the tasks that drain time and can be automated.': 'Saisie de donnees, copier-coller, relance de validations : nous identifions les taches chronophages qui peuvent etre automatisees.',
+    'Contracts, reports, inboxes — we assess where AI can help you find, summarise and act on information faster.': 'Contrats, rapports, boites mail : nous evaluons ou l IA peut vous aider a trouver, resumer et agir sur l information plus rapidement.',
+    'How does your team find answers? We look at whether AI search or knowledge tools could reduce wasted effort.': 'Comment votre equipe trouve-t-elle les reponses ? Nous analysons si des outils de recherche ou de gestion des connaissances IA pourraient reduire les efforts inutiles.',
+    'From FAQ automation to smarter triaging, we explore where AI can improve response times without losing quality.': 'De l automatisation des FAQ au tri intelligent, nous explorons ou l IA peut ameliorer les temps de reponse sans perdre en qualite.',
+    'We assess whether your Microsoft 365 environment is ready to get real value from Copilot — or what needs to change first.': 'Nous evaluons si votre environnement Microsoft 365 est pret a tirer une vraie valeur de Copilot, ou ce qui doit d abord changer.',
+    'We flag where AI introduces data risks, GDPR concerns or governance gaps before you commit to any tool.': 'Nous identifions ou l IA introduit des risques de donnees, des problematiques RGPD ou des lacunes de gouvernance avant tout engagement dans un outil.',
+    'We help you define clear internal rules for how AI should and should not be used in your business.': 'Nous vous aidons a definir des regles internes claires sur la facon dont l IA doit et ne doit pas etre utilisee dans votre entreprise.',
+    'We recommend specific tools matched to your situation, with an honest view of cost, complexity and vendor lock-in.': 'Nous recommandons des outils specifiques adaptes a votre situation, avec une vision honnete du cout, de la complexite et des risques de dependance fournisseur.',
+    'Everything is ranked so you know what to tackle first for the fastest, safest return on effort.': 'Tout est classe par priorite pour que vous sachiez quoi traiter en premier pour le retour sur effort le plus rapide et le plus sur.',
+    // ai-review — deliverables card descriptions
+    'A plain-language overview of where AI can realistically add value in your business.': 'Un apercu en langage clair des domaines ou l IA peut reellement apporter de la valeur a votre entreprise.',
+    'Your top AI opportunities ranked by impact and ease of implementation.': 'Vos principales opportunites IA classees par impact et facilite de mise en oeuvre.',
+    'Specific tasks or processes you can automate or improve within weeks, not months.': 'Des taches ou processus specifiques que vous pouvez automatiser ou ameliorer en quelques semaines, pas des mois.',
+    'An honest look at data risks, GDPR implications, and what to watch out for.': 'Un regard honnete sur les risques lies aux donnees, les implications RGPD et les points de vigilance.',
+    'Concrete suggestions — Microsoft Copilot, custom GPTs, or other tools — matched to your context.': 'Des suggestions concretes — Microsoft Copilot, GPT personnalises ou autres outils — adaptees a votre contexte.',
+    'A phased plan so you know what to do first, second, and later.': 'Un plan par etapes pour savoir quoi faire en premier, en deuxieme et plus tard.',
+    'Clear actions you can take immediately, with or without further help from us.': 'Des actions claires que vous pouvez entreprendre immediatement, avec ou sans aide supplementaire de notre part.',
+    // footer
+    'Legal': 'Mentions legales',
+    'Privacy Policy': 'Politique de confidentialite',
+    'Cookie Policy': 'Politique de cookies',
+    'Secure, automate and modernise your business IT.': 'Securisez, automatisez et modernisez votre IT.',
+    'Book a free 30-minute IT review to discuss your systems, security and opportunities.': 'Reservez un audit IT gratuit de 30 minutes pour discuter de vos systemes, de votre securite et de vos opportunites.',
     'Belgium IT services for secure, automated SMEs': 'Services IT en Belgique pour PME securisees et automatisees',
     'Senior IT consultancy for Belgian SMEs that need clearer Microsoft 365 systems, stronger cybersecurity and practical automation — without vague AI hype or generic support packages.': 'Conseil IT senior pour les PME belges qui veulent des systemes Microsoft 365 plus clairs, une cybersecurite renforcee et une automatisation concrete, sans promesses IA vagues ni support generique.',
     'MSOIT helps SMEs in Belgium bring structure, security and automation to their IT environment so day-to-day work becomes clearer, safer and less dependent on manual workarounds.': 'MSOIT aide les PME en Belgique a structurer, securiser et automatiser leur environnement IT afin que le travail quotidien devienne plus clair, plus sur et moins dependant de solutions manuelles.',
@@ -536,6 +562,32 @@
   });
 
   Object.assign(dictionaries.nl, {
+
+    // ai-review — topics card descriptions
+    'We map how your team actually works today to spot where AI could reduce friction or eliminate manual steps.': 'We brengen in kaart hoe uw team vandaag echt werkt om te zien waar AI wrijving kan verminderen of handmatige stappen kan elimineren.',
+    'Data entry, copy-pasting, chasing approvals — we identify the tasks that drain time and can be automated.': 'Gegevensinvoer, kopieer-plakwerk, goedkeuringen najagen : we identificeren de tijdrovende taken die geautomatiseerd kunnen worden.',
+    'Contracts, reports, inboxes — we assess where AI can help you find, summarise and act on information faster.': 'Contracten, rapporten, inboxen : we beoordelen waar AI u kan helpen informatie sneller te vinden, samen te vatten en op te handelen.',
+    'How does your team find answers? We look at whether AI search or knowledge tools could reduce wasted effort.': 'Hoe vindt uw team antwoorden ? We bekijken of AI-zoek- of kennistools verspilde inspanning kunnen verminderen.',
+    'From FAQ automation to smarter triaging, we explore where AI can improve response times without losing quality.': 'Van FAQ-automatisering tot slimmere triage : we onderzoeken waar AI reactietijden kan verbeteren zonder kwaliteitsverlies.',
+    'We assess whether your Microsoft 365 environment is ready to get real value from Copilot — or what needs to change first.': 'We beoordelen of uw Microsoft 365-omgeving klaar is om echte waarde uit Copilot te halen, of wat er eerst moet veranderen.',
+    'We flag where AI introduces data risks, GDPR concerns or governance gaps before you commit to any tool.': 'We signaleren waar AI gegevensrisico s, AVG-bezwaren of governancetekorten introduceert voordat u zich aan een tool verbindt.',
+    'We help you define clear internal rules for how AI should and should not be used in your business.': 'We helpen u duidelijke interne regels te bepalen over hoe AI wel en niet mag worden gebruikt in uw bedrijf.',
+    'We recommend specific tools matched to your situation, with an honest view of cost, complexity and vendor lock-in.': 'We bevelen specifieke tools aan die bij uw situatie passen, met een eerlijk beeld van kosten, complexiteit en leveranciersafhankelijkheid.',
+    'Everything is ranked so you know what to tackle first for the fastest, safest return on effort.': 'Alles is gerangschikt zodat u weet wat u eerst moet aanpakken voor het snelste en veiligste rendement op inspanning.',
+    // ai-review — deliverables card descriptions
+    'A plain-language overview of where AI can realistically add value in your business.': 'Een overzicht in begrijpelijke taal van waar AI realistisch gezien waarde kan toevoegen in uw bedrijf.',
+    'Your top AI opportunities ranked by impact and ease of implementation.': 'Uw belangrijkste AI-kansen gerangschikt op impact en implementatiegemak.',
+    'Specific tasks or processes you can automate or improve within weeks, not months.': 'Specifieke taken of processen die u binnen weken kunt automatiseren of verbeteren, niet maanden.',
+    'An honest look at data risks, GDPR implications, and what to watch out for.': 'Een eerlijke blik op gegevensrisico s, AVG-implicaties en aandachtspunten.',
+    'Concrete suggestions — Microsoft Copilot, custom GPTs, or other tools — matched to your context.': 'Concrete suggesties — Microsoft Copilot, aangepaste GPT s of andere tools — afgestemd op uw context.',
+    'A phased plan so you know what to do first, second, and later.': 'Een gefaseerd plan zodat u weet wat u als eerste, tweede en later moet doen.',
+    'Clear actions you can take immediately, with or without further help from us.': 'Duidelijke acties die u onmiddellijk kunt ondernemen, met of zonder verdere hulp van ons.',
+    // footer
+    'Legal': 'Juridisch',
+    'Privacy Policy': 'Privacybeleid',
+    'Cookie Policy': 'Cookiebeleid',
+    'Secure, automate and modernise your business IT.': 'Beveilig, automatiseer en moderniseer uw bedrijfs-IT.',
+    'Book a free 30-minute IT review to discuss your systems, security and opportunities.': 'Plan een gratis IT-audit van 30 minuten om uw systemen, beveiliging en kansen te bespreken.',
     'Belgium IT services for secure, automated SMEs': 'Belgische IT-diensten voor veilige, geautomatiseerde kmo s',
     'Senior IT consultancy for Belgian SMEs that need clearer Microsoft 365 systems, stronger cybersecurity and practical automation — without vague AI hype or generic support packages.': 'Senior IT-advies voor Belgische kmo s die duidelijkere Microsoft 365-systemen, sterkere cybersecurity en praktische automatisering nodig hebben, zonder vage AI-hype of generieke supportpakketten.',
     'MSOIT helps SMEs in Belgium bring structure, security and automation to their IT environment so day-to-day work becomes clearer, safer and less dependent on manual workarounds.': 'MSOIT helpt kmo s in Belgie structuur, beveiliging en automatisering aan te brengen in hun IT-omgeving, zodat dagelijks werk duidelijker, veiliger en minder afhankelijk van handmatige omwegen wordt.',

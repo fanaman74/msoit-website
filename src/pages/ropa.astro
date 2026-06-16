@@ -1,0 +1,258 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const activities = [
+  {
+    id: 'PA-01',
+    name: 'Contact Form Lead Capture',
+    purpose: 'Receive and store enquiries submitted via the website contact form so we can respond and arrange a free IT review.',
+    legalBasis: 'Art. 6(1)(b) — Pre-contractual steps\nArt. 6(1)(f) — Legitimate interest',
+    dataSubjects: 'Prospective clients (B2B decision-makers at Belgian SMEs)',
+    dataCategories: 'Name; email address; phone number (optional); company name (optional); area of interest; message; IP address; browser user agent; page URL; referring URL; language preference; UTM attribution parameters',
+    processors: 'Supabase (EU region); Resend',
+    thirdCountry: 'No',
+    retention: '2 years from last contact, then permanently deleted',
+  },
+  {
+    id: 'PA-02',
+    name: 'Email Follow-Up Correspondence',
+    purpose: 'Send follow-up emails to arrange or conduct the free IT review and deliver agreed next steps.',
+    legalBasis: 'Art. 6(1)(f) — Legitimate interest (following up on an inbound business enquiry; no cold outreach)',
+    dataSubjects: 'Prospective and existing clients',
+    dataCategories: 'Name; email address; email correspondence content',
+    processors: 'Resend (email delivery)',
+    thirdCountry: 'No',
+    retention: '2 years from last contact, then permanently deleted',
+  },
+  {
+    id: 'PA-03',
+    name: 'Inbound Email Reply Logging',
+    purpose: 'Capture replies from prospects who respond to our emails so we can maintain a coherent conversation record.',
+    legalBasis: 'Art. 6(1)(f) — Legitimate interest',
+    dataSubjects: 'Prospective and existing clients',
+    dataCategories: 'Sender email address; name (from email header); reply content; timestamp',
+    processors: 'Resend (inbound webhook); Supabase (storage, EU region)',
+    thirdCountry: 'No',
+    retention: '2 years from last contact, then permanently deleted',
+  },
+  {
+    id: 'PA-04',
+    name: 'Marketing Attribution (UTM Tracking)',
+    purpose: 'Record UTM parameters to understand which marketing channels generate enquiries, enabling informed budget decisions.',
+    legalBasis: 'Art. 6(1)(f) — Legitimate interest (channel ROI analysis; not used for individual profiling or re-targeting)',
+    dataSubjects: 'Website visitors who submit the contact form',
+    dataCategories: 'UTM source; UTM medium; UTM campaign; UTM term; UTM content',
+    processors: 'Supabase (EU region)',
+    thirdCountry: 'No',
+    retention: '2 years, retained with lead record, then deleted',
+  },
+  {
+    id: 'PA-05',
+    name: 'Spam & Fraud Prevention',
+    purpose: 'Log IP address and browser user agent to detect and block abusive or automated form submissions.',
+    legalBasis: 'Art. 6(1)(f) — Legitimate interest (protecting system integrity)',
+    dataSubjects: 'All website visitors who submit the contact form',
+    dataCategories: 'IP address; browser user agent string',
+    processors: 'Supabase (EU region)',
+    thirdCountry: 'No',
+    retention: '2 years with lead record; spam submissions deleted within 30 days',
+  },
+  {
+    id: 'PA-06',
+    name: 'Cookie Consent Records (Cookiebot)',
+    purpose: 'Record each visitor\'s consent decision so we can demonstrate compliance with GDPR consent requirements.',
+    legalBasis: 'Art. 6(1)(c) — Legal obligation (Art. 7(1) GDPR — controller must be able to demonstrate consent)',
+    dataSubjects: 'All website visitors',
+    dataCategories: 'Cookiebot consent UUID; hashed IP address; consent timestamp; consent state per category; browser user agent',
+    processors: 'Cybot A/S / Cookiebot (Denmark, EU)',
+    thirdCountry: 'No — processor based in Denmark (EU/EEA)',
+    retention: '12 months (aligned with consent renewal cycle)',
+  },
+  {
+    id: 'PA-07',
+    name: 'Website Analytics',
+    purpose: 'Collect anonymised usage data (pages viewed, session duration, traffic sources) to understand how visitors use the site and improve content.',
+    legalBasis: 'Art. 6(1)(a) — Consent (visitor must accept statistics cookies via Cookiebot before any analytics script loads)',
+    dataSubjects: 'Website visitors who have consented to analytics cookies',
+    dataCategories: 'Anonymised browsing behaviour; pages visited; session duration; browser & device type; country-level location; traffic source',
+    processors: 'Analytics provider (see Processors table below)',
+    thirdCountry: 'Depends on provider — see Processors table',
+    retention: '26 months, or shorter per provider settings',
+  },
+  {
+    id: 'PA-08',
+    name: 'Admin Panel — Lead Management',
+    purpose: 'Allow authorised MSOIT staff to view, reply to, update and delete lead records for sales pipeline management.',
+    legalBasis: 'Art. 6(1)(f) — Legitimate interest (internal business operations)',
+    dataSubjects: 'Prospective and existing clients (whose records appear in the admin panel)',
+    dataCategories: 'All data categories collected in PA-01 and PA-03',
+    processors: 'Supabase (backend & auth, EU region)',
+    thirdCountry: 'No',
+    retention: 'Per PA-01 / PA-03 retention schedules',
+  },
+];
+
+const processors = [
+  {
+    name: 'Supabase Inc.',
+    role: 'Database, backend API & authentication hosting',
+    location: 'EU data region — eu-west-1 (Dublin, Ireland)',
+    thirdCountry: 'No',
+    dpa: 'Yes',
+  },
+  {
+    name: 'Resend.com',
+    role: 'Transactional email delivery (outbound and inbound webhook)',
+    location: 'EU infrastructure',
+    thirdCountry: 'Confirm',
+    dpa: 'Yes',
+  },
+  {
+    name: 'Cybot A/S (Cookiebot)',
+    role: 'Cookie consent management platform (CMP)',
+    location: 'Denmark (EU/EEA)',
+    thirdCountry: 'No',
+    dpa: 'Yes',
+  },
+  {
+    name: 'Analytics Provider',
+    role: 'Website analytics — aggregated usage statistics (only after consent)',
+    location: 'To be confirmed',
+    thirdCountry: 'To be confirmed',
+    dpa: 'To be confirmed',
+  },
+  {
+    name: 'Railway',
+    role: 'Website hosting platform',
+    location: 'EU region',
+    thirdCountry: 'No',
+    dpa: 'Yes',
+  },
+];
+---
+
+<Layout
+  title="Record of Processing Activities (ROPA) — MSOIT"
+  description="MSOIT's Record of Processing Activities under Article 30 GDPR — all personal data processing activities documented transparently."
+>
+  <section class="section-shell bg-white py-20">
+    <div class="surface-line pointer-events-none absolute inset-0" aria-hidden="true"></div>
+    <div class="relative mx-auto max-w-4xl px-6" data-reveal>
+      <p class="mb-5 text-sm font-bold text-accent">Legal</p>
+      <h1 class="text-balance text-6xl font-bold leading-[0.88] text-[#111111] sm:text-7xl">Record of Processing Activities</h1>
+      <p class="mt-6 text-sm text-[#666666]">Last updated: June 2026 &mdash; Version 1.0</p>
+    </div>
+  </section>
+
+  <section class="bg-white pb-24">
+    <div class="mx-auto max-w-6xl px-6">
+      <div class="prose prose-lg max-w-none text-[#333333]" style="--tw-prose-headings: #111111; --tw-prose-links: #ff4f00;">
+
+        <p class="mt-8 leading-relaxed">
+          This page documents all personal data processing activities carried out by MSOIT as data controller, in accordance with <strong>Article 30 of the General Data Protection Regulation (EU) 2016/679</strong>. It is kept up to date and made available to the Belgian Data Protection Authority (APD/GBA) on request.
+        </p>
+        <p class="mt-4 leading-relaxed">
+          <strong>Data controller:</strong> MSOIT (Making Sense of IT)<br />
+          <strong>Contact:</strong> <a href="mailto:hello@msoit.eu" class="text-accent hover:underline">hello@msoit.eu</a><br />
+          <strong>Establishment:</strong> Belgium
+        </p>
+
+      </div>
+
+      <!-- Processing Activities -->
+      <h2 class="mt-16 text-2xl font-bold text-[#111111]">Processing Activities</h2>
+      <p class="mt-3 text-sm leading-relaxed text-[#555555]">One row per activity. Scroll horizontally on small screens.</p>
+
+      <div class="mt-6 overflow-x-auto">
+        <table class="w-full min-w-[900px] border-collapse border border-[#111111] text-sm">
+          <thead>
+            <tr class="bg-[#111111] text-white">
+              <th class="border border-[#333333] px-4 py-3 text-left font-bold">ID</th>
+              <th class="border border-[#333333] px-4 py-3 text-left font-bold">Activity</th>
+              <th class="border border-[#333333] px-4 py-3 text-left font-bold">Purpose</th>
+              <th class="border border-[#333333] px-4 py-3 text-left font-bold">Legal Basis</th>
+              <th class="border border-[#333333] px-4 py-3 text-left font-bold">Personal Data</th>
+              <th class="border border-[#333333] px-4 py-3 text-left font-bold">Processors</th>
+              <th class="border border-[#333333] px-4 py-3 text-left font-bold">3rd Country?</th>
+              <th class="border border-[#333333] px-4 py-3 text-left font-bold">Retention</th>
+            </tr>
+          </thead>
+          <tbody>
+            {activities.map((a, i) => (
+              <tr class={i % 2 === 0 ? 'bg-white' : 'bg-[#f9f9f9]'}>
+                <td class="border border-[#e5e5e5] px-4 py-3 align-top font-bold text-accent whitespace-nowrap">{a.id}</td>
+                <td class="border border-[#e5e5e5] px-4 py-3 align-top font-semibold text-[#111111] min-w-[160px]">{a.name}</td>
+                <td class="border border-[#e5e5e5] px-4 py-3 align-top text-[#333333] min-w-[220px]">{a.purpose}</td>
+                <td class="border border-[#e5e5e5] px-4 py-3 align-top text-[#333333] min-w-[180px] whitespace-pre-line">{a.legalBasis}</td>
+                <td class="border border-[#e5e5e5] px-4 py-3 align-top text-[#333333] min-w-[200px]">{a.dataCategories}</td>
+                <td class="border border-[#e5e5e5] px-4 py-3 align-top text-[#333333] min-w-[160px]">{a.processors}</td>
+                <td class="border border-[#e5e5e5] px-4 py-3 align-top text-[#333333] whitespace-nowrap">{a.thirdCountry}</td>
+                <td class="border border-[#e5e5e5] px-4 py-3 align-top text-[#333333] min-w-[180px]">{a.retention}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Processors -->
+      <h2 class="mt-16 text-2xl font-bold text-[#111111]">Data Processors (Article 28)</h2>
+      <p class="mt-3 text-sm leading-relaxed text-[#555555]">Third-party services that process personal data on our behalf. Data Processing Agreements (DPAs) are in place with each processor.</p>
+
+      <div class="mt-6 overflow-x-auto">
+        <table class="w-full border-collapse border border-[#111111] text-sm">
+          <thead>
+            <tr class="bg-[#111111] text-white">
+              <th class="border border-[#333333] px-4 py-3 text-left font-bold">Processor</th>
+              <th class="border border-[#333333] px-4 py-3 text-left font-bold">Role</th>
+              <th class="border border-[#333333] px-4 py-3 text-left font-bold">Location</th>
+              <th class="border border-[#333333] px-4 py-3 text-left font-bold">3rd Country Transfer?</th>
+              <th class="border border-[#333333] px-4 py-3 text-left font-bold">DPA in Place?</th>
+            </tr>
+          </thead>
+          <tbody>
+            {processors.map((p, i) => (
+              <tr class={i % 2 === 0 ? 'bg-white' : 'bg-[#f9f9f9]'}>
+                <td class="border border-[#e5e5e5] px-4 py-3 align-top font-semibold text-[#111111]">{p.name}</td>
+                <td class="border border-[#e5e5e5] px-4 py-3 align-top text-[#333333]">{p.role}</td>
+                <td class="border border-[#e5e5e5] px-4 py-3 align-top text-[#333333]">{p.location}</td>
+                <td class="border border-[#e5e5e5] px-4 py-3 align-top text-[#333333]">{p.thirdCountry}</td>
+                <td class="border border-[#e5e5e5] px-4 py-3 align-top text-[#333333]">{p.dpa}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Security measures -->
+      <h2 class="mt-16 text-2xl font-bold text-[#111111]">Technical & Organisational Security Measures</h2>
+      <div class="mt-4 prose prose-lg max-w-none text-[#333333]">
+        <ul class="list-disc space-y-2 pl-6 leading-relaxed">
+          <li>All data transmitted over HTTPS / TLS</li>
+          <li>Supabase row-level security enabled; data stored in EU region (Dublin, Ireland)</li>
+          <li>Admin panel access protected by authentication; session tokens expire on inactivity</li>
+          <li>Principle of least privilege — staff access limited to what is necessary</li>
+          <li>API keys scoped to minimum required permissions; stored as environment variables (not in codebase)</li>
+          <li>No personal data sold, rented or shared with third parties for marketing</li>
+          <li>Security practices reviewed annually</li>
+        </ul>
+      </div>
+
+      <!-- Rights & contact -->
+      <h2 class="mt-16 text-2xl font-bold text-[#111111]">Your Rights</h2>
+      <div class="mt-4 prose prose-lg max-w-none text-[#333333]">
+        <p class="leading-relaxed">
+          Under GDPR you have the right to access, correct, delete, restrict, or object to the processing of your personal data, and to receive it in a portable format. To exercise any of these rights, email <a href="mailto:hello@msoit.eu" class="text-accent hover:underline">hello@msoit.eu</a>. We will respond within 30 days.
+        </p>
+        <p class="mt-4 leading-relaxed">
+          You also have the right to lodge a complaint with the Belgian Data Protection Authority: <a href="https://www.dataprotectionauthority.be" target="_blank" rel="noopener noreferrer" class="text-accent hover:underline">dataprotectionauthority.be</a>.
+        </p>
+      </div>
+
+      <!-- Back link -->
+      <div class="mt-16 border-t border-[#e5e5e5] pt-8">
+        <a href="/privacy" class="text-sm font-bold text-accent hover:underline">&larr; Back to Privacy Policy</a>
+      </div>
+
+    </div>
+  </section>
+</Layout>
