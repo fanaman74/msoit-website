@@ -124,6 +124,12 @@ if (isAuthed) {
       cursor: pointer; white-space: nowrap; transition: background 0.15s;
     }
     .reply-btn:hover { background: #f97316; color: #fff; border-color: #f97316; }
+    .delete-btn {
+      font-size: 0.72rem; font-weight: 600; font-family: inherit;
+      background: #fff; border: 1px solid #ddd; color: #999; padding: 0.25rem 0.6rem;
+      cursor: pointer; white-space: nowrap; transition: all 0.15s; margin-top: 4px; display: block; width: 100%;
+    }
+    .delete-btn:hover { background: #dc2626; color: #fff; border-color: #dc2626; }
 
     /* Reply modal */
     .modal-overlay {
@@ -235,6 +241,10 @@ if (isAuthed) {
                     data-name={lead.name as string}
                     data-area={lead.area as string || ''}
                   >Reply</button>
+                  <button
+                    class="delete-btn"
+                    data-id={lead.id as string}
+                  >Delete</button>
                 </td>
                 <td class="date">
                   {new Date(lead.submitted_at as string).toLocaleDateString('en-GB', {
@@ -348,6 +358,34 @@ if (isAuthed) {
       } finally {
         sel.classList.remove('saving');
         sel.disabled = false;
+      }
+    });
+  });
+
+  // Delete buttons
+  document.querySelectorAll<HTMLButtonElement>('.delete-btn').forEach((btn) => {
+    btn.addEventListener('click', async () => {
+      if (!confirm('Delete this lead and all its replies? This cannot be undone.')) return;
+      const id = btn.dataset.id!;
+      btn.disabled = true;
+      btn.textContent = '...';
+      try {
+        const res = await fetch('/api/admin-delete-lead', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ id }),
+        });
+        if (res.ok) {
+          btn.closest('tr')?.remove();
+        } else {
+          alert('Failed to delete lead.');
+          btn.disabled = false;
+          btn.textContent = 'Delete';
+        }
+      } catch {
+        alert('Network error.');
+        btn.disabled = false;
+        btn.textContent = 'Delete';
       }
     });
   });
