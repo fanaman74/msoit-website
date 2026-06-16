@@ -121,18 +121,15 @@ if (isAuthed) {
     .reply-bubble-body { color: #333; white-space: pre-wrap; }
     .history-toggle { font-size: 0.7rem; color: #f97316; cursor: pointer; background: none; border: none; font-family: inherit; padding: 0; text-decoration: underline; }
 
-    /* Reply button */
-    .reply-btn {
+    /* Reply / Delete buttons */
+    .reply-btn, .delete-btn {
       font-size: 0.72rem; font-weight: 600; font-family: inherit;
-      background: #fff; border: 1px solid #111; padding: 0.25rem 0.6rem;
-      cursor: pointer; white-space: nowrap; transition: background 0.15s;
+      background: #f5f5f5; border: 1px solid #ddd; color: #444;
+      padding: 0.25rem 0.6rem; cursor: pointer; white-space: nowrap;
+      transition: all 0.15s; display: block; width: 100%;
     }
+    .reply-btn { margin-bottom: 4px; }
     .reply-btn:hover { background: #f97316; color: #fff; border-color: #f97316; }
-    .delete-btn {
-      font-size: 0.72rem; font-weight: 600; font-family: inherit;
-      background: #fff; border: 1px solid #ddd; color: #999; padding: 0.25rem 0.6rem;
-      cursor: pointer; white-space: nowrap; transition: all 0.15s; margin-top: 4px; display: block; width: 100%;
-    }
     .delete-btn:hover { background: #dc2626; color: #fff; border-color: #dc2626; }
 
     /* Reply modal */
